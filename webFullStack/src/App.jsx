@@ -21,7 +21,7 @@ function App() {
   return (
     <>
       <h1>Testando API</h1>
-      <p>Buscando a letra de "${artistName}" - ${trackName}...</p>
+      <p>Buscando a letra de "{artistName}" - {trackName}...</p>
 
       <h2>Resultado:</h2>
       <pre id="lyrics-container">{lyrics}</pre>
