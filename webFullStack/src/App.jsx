@@ -1,13 +1,10 @@
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import './App.css'
 
 function App() {
   const artistName = "Nanase Aikawa";
   const trackName = "break out";
-  const { t } = useTranslation();
   let [lyrics, setLyrics] = useState('')
-
 
   const url = `https://lrclib.net/api/search?track_name=${trackName}&artist_name=${artistName}`;
 
@@ -23,7 +20,7 @@ function App() {
 
   return (
     <>
-      <h1>{t('welcomeMessage')}</h1>
+      <h1>Testando API</h1>
       <p>Buscando a letra de "${artistName}" - ${trackName}...</p>
 
       <h2>Resultado:</h2>
