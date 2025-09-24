@@ -1,33 +1,33 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const artistName = "Nanase Aikawa";
+  const trackName = "break out";
+  const { t } = useTranslation();
+  let [lyrics, setLyrics] = useState('')
+
+
+  const url = `https://lrclib.net/api/search?track_name=${trackName}&artist_name=${artistName}`;
+
+  fetch(url)
+  .then(response => response.json()) // Converte a resposta para JSON
+  .then(data => {
+    console.log("Resultados encontrados:", data); // Exibe os resultados no console
+    setLyrics(data[0].plainLyrics)
+  })
+  .catch(error => {
+    console.error("Ocorreu um erro:", error); // Exibe um erro se algo der errado
+  });
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <h1>{t('welcomeMessage')}</h1>
+      <p>Buscando a letra de "${artistName}" - ${trackName}...</p>
+
+      <h2>Resultado:</h2>
+      <pre id="lyrics-container">{lyrics}</pre>
     </>
   )
 }
