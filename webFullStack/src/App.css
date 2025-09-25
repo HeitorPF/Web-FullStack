@@ -1,7 +1,12 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body { 
   font-family: sans-serif; 
-  line-height: 1.6; 
-  padding: 20px; 
+  line-height: 1.6;
 }
 
 pre { 
@@ -14,3 +19,20 @@ pre {
 }
         
 .error { color: red; font-weight: bold; }
+
+.header {
+  background-color: green;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 20px;
+  color: #FFF;
+}
+
+.invi {
+  display: none;
+}
+
+.loading-image {
+  height: 30px;
+}
