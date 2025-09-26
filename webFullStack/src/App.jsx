@@ -3,8 +3,10 @@ import loadingImage from './assets/images/loading.gif'
 import './App.css'
 import Header from './components/Header.jsx';
 import ErroModal from './components/ErroModal.jsx';
+import HistoricoPesquisa from './components/HistoricoPesquisa.jsx';
 import { LyricsContext } from './context/LyricsContext.jsx';
-import HistoricoPesquisa from './context/HistoryContext.jsx';
+import { MusicInfoProvider } from './context/MusicInfoContext.jsx';
+
 
 function App() {
 
@@ -27,22 +29,21 @@ function App() {
 
   return (
     <>
+      <MusicInfoProvider>
+        <Header buscaMusica={buscaMusica} />
+        <main>
 
-      <Header buscaMusica={buscaMusica} />
+          <div className='resultado invi ' ref={resultadoRef}>
+            <pre id="lyrics-container">{lyrics ? lyrics : <img src={loadingImage} alt="loading" className='loading-image' />}</pre>
+          </div>
 
-      <main>
+        </main>
 
-        <div className='resultado invi ' ref={resultadoRef}>
-          <pre id="lyrics-container">{lyrics ? lyrics : <img src={loadingImage} alt="loading" className='loading-image' />}</pre>
-        </div>
-
-      </main>
-
-      <HistoricoPesquisa onBuscaHistorico={handleBuscaHistorico} />
+        <HistoricoPesquisa onBuscaHistorico={handleBuscaHistorico} />
 
 
-      <ErroModal open={modalOpen} handleClose={fecharModal} message={errorMessage} />
-
+        <ErroModal open={modalOpen} handleClose={fecharModal} message={errorMessage} />
+      </MusicInfoProvider>
 
 
     </>

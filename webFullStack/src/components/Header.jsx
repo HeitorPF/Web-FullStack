@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import lupa from '../assets/images/lupa.png'
 
 function Header({ buscaMusica }) {

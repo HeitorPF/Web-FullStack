@@ -41,7 +41,7 @@ export function LyricsProvider({ children }) {
 
         const url = `https://lrclib.net/api/search?track_name=${nomeMusica}&artist_name=${nomeArtista}`;
 
-        salvaHistorico(nomeArtista, nomeMusica);
+        
 
         fetch(url)
             .then(response => {
@@ -55,6 +55,7 @@ export function LyricsProvider({ children }) {
                     abrirModal("Nenhuma letra encontrada para essa busca.");
                     return;
                 }
+                salvaHistorico(nomeArtista, nomeMusica);
                 setLyrics(data[0].plainLyrics);
             })
             .catch(error => {
