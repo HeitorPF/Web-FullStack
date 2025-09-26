@@ -1,17 +1,67 @@
-import { createContext, useState } from 'react';
+import { createContext, useState, useContext } from 'react';
 
-// 1. Crie o Contexto
+async function fetchLyrics(nomeArtista, nomeMusica) {
+    const url = `https://lrclib.net/api/search?track_name=${nomeMusica}&artist_name=${nomeArtista}`;
+
+    const response = await fetch(url);
+
+    if (!response.ok) {
+        throw new Error('Erro na busca. Tente com outros termos.');
+    }
+
+    const data = await response.json();
+
+    if (data.length === 0 || !data[0].plainLyrics) {
+        throw new Error("Nenhuma letra encontrada para essa busca.");
+    }
+
+    return data[0].plainLyrics;
+}
+
+
+const salvaHistorico = (artista, musica) => {
+    const historicoAtual = JSON.parse(localStorage.getItem('historicoPesquisa')) || [];
+    const novaPesquisa = { artista, musica, timestamp: Date.now() };
+
+    historicoAtual.unshift(novaPesquisa);
+
+    const historicoLimitado = historicoAtual.slice(0, 10);
+
+    localStorage.setItem('historicoPesquisa', JSON.stringify(historicoLimitado));
+
+    const event = new Event('historicoAtualizado');
+    window.dispatchEvent(event);
+};
+
+const excluirHistorico = (artista, musica) => {
+    const historicoAtual = JSON.parse(localStorage.getItem('historicoPesquisa')) || [];
+
+    const novoHistorico = historicoAtual.filter(item =>
+        item.artista !== artista || item.musica !== musica
+    );
+
+    localStorage.setItem('historicoPesquisa', JSON.stringify(novoHistorico));
+
+
+
+    const event = new Event('historicoAtualizado');
+    window.dispatchEvent(event);
+
+    console.log(`Item removido: ${artista} - ${musica}`);
+};
+
 export const LyricsContext = createContext();
 
-// 2. Crie o Provedor do Contexto
+
 export function LyricsProvider({ children }) {
-    // O estado que você quer compartilhar
+
     const [lyrics, setLyrics] = useState('');
     const [modalOpen, setModalOpen] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [loading, setLoading] = useState(false);
 
-    // Funções para manipular o modal
+    const [avisoMessage, setAvisoMessage] = useState(''); // <-- CORRIGIDO
+
     const abrirModal = (message) => {
         setErrorMessage(message);
         setModalOpen(true);
@@ -21,7 +71,6 @@ export function LyricsProvider({ children }) {
         setModalOpen(false);
     };
 
-    // Funções para validar e buscar os dados
     function validacaoDados(nomeArtista, nomeMusica) {
         if (!nomeArtista || !nomeMusica) {
             const message = !nomeArtista ? "Por favor, preencha o nome do artista." : "Por favor, preencha o nome da música.";
@@ -31,6 +80,8 @@ export function LyricsProvider({ children }) {
         return true;
     }
 
+
+
     async function buscaMusica(nomeArtista, nomeMusica) {
         if (!validacaoDados(nomeArtista, nomeMusica)) {
             return;
@@ -39,49 +90,20 @@ export function LyricsProvider({ children }) {
         setLyrics('');
         setLoading(true);
 
-        const url = `https://lrclib.net/api/search?track_name=${nomeMusica}&artist_name=${nomeArtista}`;
+        try {
+            const letraEncontrada = await fetchLyrics(nomeArtista, nomeMusica);
 
-        salvaHistorico(nomeArtista, nomeMusica);
+            salvaHistorico(nomeArtista, nomeMusica);
+            setLyrics(letraEncontrada);
 
-        fetch(url)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Erro na busca. Tente com outros termos.');
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.length === 0) {
-                    abrirModal("Nenhuma letra encontrada para essa busca.");
-                    return;
-                }
-                setLyrics(data[0].plainLyrics);
-            })
-            .catch(error => {
-                console.error("Ocorreu um erro:", error);
-                abrirModal(error.message || 'Ops! Ocorreu um erro ao buscar a letra. Tente novamente mais tarde.');
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+        } catch (error) {
+            console.error("Ocorreu um erro:", error);
+            abrirModal(error.message || 'Ops! Ocorreu um erro desconhecido.');
+
+        } finally {
+            setLoading(false);
+        }
     }
-
-    const salvaHistorico = (artista, musica) => {
-        // Pega o histórico atual do localStorage
-        const historicoAtual = JSON.parse(localStorage.getItem('historicoPesquisa')) || [];
-
-        // Cria um novo item de pesquisa
-        const novaPesquisa = { artista, musica, timestamp: Date.now() };
-
-        // Adiciona a nova pesquisa ao início da lista
-        historicoAtual.unshift(novaPesquisa);
-
-        // Limita o histórico a, por exemplo, 10 itens
-        const historicoLimitado = historicoAtual.slice(0, 10);
-
-        // Salva a lista atualizada no localStorage
-        localStorage.setItem('historicoPesquisa', JSON.stringify(historicoLimitado));
-    };
 
     const value = {
         lyrics,
@@ -90,6 +112,8 @@ export function LyricsProvider({ children }) {
         loading,
         buscaMusica,
         fecharModal,
+        excluirHistorico,
+
     };
 
     return (
@@ -98,3 +122,6 @@ export function LyricsProvider({ children }) {
         </LyricsContext.Provider>
     );
 }
+
+
+export const useLyrics = () => useContext(LyricsContext);

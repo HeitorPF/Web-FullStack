@@ -1,15 +1,13 @@
 // src/components/HistoricoPesquisa.jsx
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
-function HistoricoPesquisa({ onBuscaHistorico }) {
+function HistoricoPesquisa({ onBuscaHistorico, onExcluirHistorico, id }) {
     const [historico, setHistorico] = useState([]);
 
     useEffect(() => {
-        // Carrega o histórico do localStorage quando o componente é montado
         const historicoSalvo = JSON.parse(localStorage.getItem('historicoPesquisa')) || [];
         setHistorico(historicoSalvo);
 
-        // Adiciona um listener para atualizar o histórico se ele mudar em outra aba
         window.addEventListener('storage', () => {
             const historicoAtualizado = JSON.parse(localStorage.getItem('historicoPesquisa')) || [];
             setHistorico(historicoAtualizado);
@@ -17,13 +15,22 @@ function HistoricoPesquisa({ onBuscaHistorico }) {
     }, []);
 
     return (
-        <div className="historico-container">
+        <div id={id} className="historico-container">
             <h2>Histórico de Pesquisa</h2>
             {historico.length > 0 ? (
                 <ul>
                     {historico.map((item, index) => (
                         <li key={index} onClick={() => onBuscaHistorico(item.artista, item.musica)}>
                             <strong>{item.artista}</strong> - {item.musica}
+                            <button
+                                className="btn-excluir"
+                                onClick={(e) => {
+                                    e.stopPropagation(); // Previne que o clique dispare a re-busca (onClick do <li>)
+                                    onExcluirHistorico(item.artista, item.musica);
+                                }}
+                            >
+                                X
+                            </button>
                         </li>
                     ))}
                 </ul>
