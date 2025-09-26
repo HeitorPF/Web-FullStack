@@ -40,6 +40,9 @@ export function LyricsProvider({ children }) {
         setLoading(true);
 
         const url = `https://lrclib.net/api/search?track_name=${nomeMusica}&artist_name=${nomeArtista}`;
+
+        salvaHistorico(nomeArtista, nomeMusica);
+
         fetch(url)
             .then(response => {
                 if (!response.ok) {
@@ -62,6 +65,23 @@ export function LyricsProvider({ children }) {
                 setLoading(false);
             });
     }
+
+    const salvaHistorico = (artista, musica) => {
+        // Pega o histórico atual do localStorage
+        const historicoAtual = JSON.parse(localStorage.getItem('historicoPesquisa')) || [];
+
+        // Cria um novo item de pesquisa
+        const novaPesquisa = { artista, musica, timestamp: Date.now() };
+
+        // Adiciona a nova pesquisa ao início da lista
+        historicoAtual.unshift(novaPesquisa);
+
+        // Limita o histórico a, por exemplo, 10 itens
+        const historicoLimitado = historicoAtual.slice(0, 10);
+
+        // Salva a lista atualizada no localStorage
+        localStorage.setItem('historicoPesquisa', JSON.stringify(historicoLimitado));
+    };
 
     const value = {
         lyrics,

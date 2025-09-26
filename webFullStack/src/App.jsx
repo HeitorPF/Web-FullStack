@@ -4,7 +4,7 @@ import './App.css'
 import Header from './components/Header.jsx';
 import ErroModal from './components/ErroModal.jsx';
 import { LyricsContext } from './context/LyricsContext.jsx';
-
+import HistoricoPesquisa from './context/HistoryContext.jsx';
 
 function App() {
 
@@ -21,6 +21,10 @@ function App() {
     }
   }, [loading, lyrics]);
 
+  const handleBuscaHistorico = (artista, musica) => {
+    buscaMusica(artista, musica);
+  };
+
   return (
     <>
 
@@ -33,6 +37,9 @@ function App() {
         </div>
 
       </main>
+
+      <HistoricoPesquisa onBuscaHistorico={handleBuscaHistorico} />
+
 
       <ErroModal open={modalOpen} handleClose={fecharModal} message={errorMessage} />
 
