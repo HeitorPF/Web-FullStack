@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import lupa from '../assets/images/lupa.png'
 
-function Header({ buscaMusica }) {
+// Receba 'rolarParaSecao' como uma prop
+function Header({ buscaMusica, rolarParaSecao }) {
     const [nomeArtista, setnomeArtista] = useState('');
     const [nomeMusica, setnomeMusica] = useState('');
 
@@ -15,6 +16,8 @@ function Header({ buscaMusica }) {
                     <h1>Lyrics On</h1>
 
                 </div>
+
+
 
                 <div className='search-component'>
 
@@ -44,9 +47,6 @@ function Header({ buscaMusica }) {
                         </div>
                     </div>
 
-
-
-
                 </div>
 
                 <div className='search-component'>
@@ -57,9 +57,17 @@ function Header({ buscaMusica }) {
 
                 </div>
 
+                { }
+                <div className='search-component menu-spa'>
+                    <button
+                        className='btn-historico'
+                        onClick={() => rolarParaSecao('secao-historico')}>
+                        Ver histórico
+                    </button>
+                </div>
+                { }
+
             </div>
-
-
 
         </header>
     );

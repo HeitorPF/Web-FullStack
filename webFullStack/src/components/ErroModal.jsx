@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
-// Estilo do modal para centralizá-lo
 const style = {
     position: 'absolute',
     top: '50%',
@@ -15,7 +14,7 @@ const style = {
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
-    textAlign: 'center', // Para centralizar o texto
+    textAlign: 'center',
 };
 
 export default function ErroModal({ open, handleClose, message }) {

@@ -92,7 +92,8 @@ main {
   width: 100%;
 }
 
-.pesquisarMusica {
+.pesquisarMusica,
+.btn-historico {
 
   border-radius: 30px;
   background-color: #E2725B;
@@ -102,9 +103,11 @@ main {
   font-size: 20px;
   width: 10rem;
   margin: auto;
+  height: 4rem;
 }
 
-.pesquisarMusica:hover {
+.pesquisarMusica:hover,
+.btn-historico:hover {
 
   background-color: #F5F5DC;
   color: #E2725B;
@@ -164,4 +167,15 @@ main .resultado {
 .historico-container li:hover {
   background-color: #e2725b;
   color: white;
+}
+
+.btn-excluir {
+  background-color: #fff;
+  color: #e2725b;
+  border: none;
+  cursor: pointer;
+  border-radius: 20px;
+  width: 2rem;
+  height: 2rem;
+  margin-left: 20px;
 }

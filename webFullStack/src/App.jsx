@@ -4,13 +4,13 @@ import './App.css'
 import Header from './components/Header.jsx';
 import ErroModal from './components/ErroModal.jsx';
 import HistoricoPesquisa from './components/HistoricoPesquisa.jsx';
-import { LyricsContext } from './context/LyricsContext.jsx';
+import { useLyrics } from './context/LyricsContext.jsx';
 import { MusicInfoProvider } from './context/MusicInfoContext.jsx';
 
 
 function App() {
 
-  const { lyrics, modalOpen, errorMessage, loading, fecharModal, buscaMusica } = useContext(LyricsContext);
+  const { lyrics, modalOpen, errorMessage, avisoSim, loading, fecharModal, buscaMusica, excluirHistorico } = useLyrics();
 
 
   const resultadoRef = useRef(null);
@@ -27,19 +27,37 @@ function App() {
     buscaMusica(artista, musica);
   };
 
+  const handleExcluirHistorico = (artista, musica) => {
+    excluirHistorico(artista, musica);
+  };
+
+  const rolarParaSecao = (id) => {
+    const secao = document.getElementById(id);
+    if (secao) {
+      secao.scrollIntoView({ behavior: 'smooth' }); // Rola suavemente
+    }
+  };
+
+
+
   return (
     <>
       <MusicInfoProvider>
-        <Header buscaMusica={buscaMusica} />
+        <Header buscaMusica={buscaMusica} rolarParaSecao={rolarParaSecao} />
         <main>
 
-          <div className='resultado invi ' ref={resultadoRef}>
+          <div className='resultado invi ' ref={resultadoRef} id="secao-resultado">
             <pre id="lyrics-container">{lyrics ? lyrics : <img src={loadingImage} alt="loading" className='loading-image' />}</pre>
           </div>
 
         </main>
 
-        <HistoricoPesquisa onBuscaHistorico={handleBuscaHistorico} />
+        <HistoricoPesquisa
+          onBuscaHistorico={handleBuscaHistorico}
+          onExcluirHistorico={handleExcluirHistorico}
+          id="secao-historico"
+        />
+
 
 
         <ErroModal open={modalOpen} handleClose={fecharModal} message={errorMessage} />
