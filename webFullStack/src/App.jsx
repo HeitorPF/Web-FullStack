@@ -1,54 +1,99 @@
 import { useState, useRef } from 'react';
 import loadingImage from './assets/images/loading.gif'
 import './App.css'
+import Header from './components/Header.jsx';
+import ErroModal from './components/ErroModal.jsx';
+
 
 function App() {
   let [lyrics, setLyrics] = useState('')
-  let [nomeArtista, setnomeArtista] = useState('')
-  let [nomeMusica, setnomeMusica] = useState('')
+
   const resultado = useRef(null)
 
-  async function buscaMusica() {
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const abrirModal = (message) => {
+    setErrorMessage(message);
+    setModalOpen(true);
+  };
+
+  const fecharModal = () => {
+    setModalOpen(false);
+  };
+
+  function validacaoDados(nomeArtista, nomeMusica) {
+    if (!nomeArtista) {
+      abrirModal("Por favor, preencha o nome do artista.");
+      return false;
+    }
+
+    if (!nomeMusica) {
+      abrirModal("Por favor, preencha o nome da música.");
+      return false;
+    }
+
+
+    return true;
+  }
+
+
+  async function buscaMusica(nomeArtista, nomeMusica) {
+
+    if (!validacaoDados(nomeArtista, nomeMusica)) {
+      return;
+    }
     setLyrics('')
     resultado.current.classList.remove('invi')
+
+
     const url = `https://lrclib.net/api/search?track_name=${nomeMusica}&artist_name=${nomeArtista}`;
     fetch(url)
-    .then(response => response.json()) // Converte a resposta para JSON
-    .then(data => {
-      console.log("Resultados encontrados:", data); // Exibe os resultados no console
-      setLyrics(data[0].plainLyrics)
-    })
-    .catch(error => {
-      console.error("Ocorreu um erro:", error); // Exibe um erro se algo der errado
-    });
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Erro na busca. Tente com outros termos.');
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data.length === 0) {
+          abrirModal("Nenhuma letra encontrada para essa busca.");
+          setLyrics('');
+          return;
+        }
+        console.log("Resultados encontrados:", data);
+        setLyrics(data[0].plainLyrics);
+      })
+      .catch(error => {
+        console.error("Ocorreu um erro:", error);
+        abrirModal(error.message || 'Ops! Ocorreu um erro ao buscar a letra. Tente novamente mais tarde.');
+        setLyrics('');
+      });
   }
-  
-  
+
+
 
   return (
     <>
-      <div className="header">
-        <p>Lyrics On</p>
-        <div>
-          <label htmlFor="NpmeArtista">Nome do artista:</label>
-          <input type="text" className="input-artista" value={nomeArtista} onChange={e => {setnomeArtista(e.target.value)}}/>
+
+
+      <Header buscaMusica={buscaMusica} />
+
+
+
+      <main>
+
+        <div className='resultado invi ' ref={resultado}>
+          <pre id="lyrics-container">{lyrics ? lyrics : <img src={loadingImage} alt="loading" className='loading-image' />}</pre>
         </div>
-        <div>
-          <label htmlFor="NpmeArtista">Nome da música:</label>
-          <input type="text" className="input-musica" value={nomeMusica} onChange={e => {setnomeMusica(e.target.value)}}/>
-        </div>
-        
 
-        <button className='pesquisarMusica' onClick={() => {buscaMusica()}}> Pesquisar</button>
-      </div>
+      </main>
 
-      <div className='resultado invi' ref={resultado}>
-        <p>Buscando a letra de "{nomeArtista}" - {nomeMusica}...</p>
+      <ErroModal open={modalOpen} handleClose={fecharModal} message={errorMessage} />
 
-        <h2>Resultado:</h2>
-        <pre id="lyrics-container">{lyrics?lyrics:<img src={loadingImage} alt="loading" className='loading-image'/>}</pre>
-      </div>
-      
+
+
     </>
   )
 }
