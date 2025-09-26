@@ -24,10 +24,7 @@ function App() {
   return (
     <>
 
-
       <Header buscaMusica={buscaMusica} />
-
-
 
       <main>
 
