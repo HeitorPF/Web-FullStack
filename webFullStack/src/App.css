@@ -4,29 +4,115 @@
   box-sizing: border-box;
 }
 
-body { 
-  font-family: sans-serif; 
+body {
+  font-family: sans-serif;
   line-height: 1.6;
 }
 
-pre { 
-  background-color: #f4f4f4; 
-  padding: 15px; 
-  border-radius: 5px; 
-  white-space: pre-wrap; 
-  word-wrap: break-word; 
-  color: black;
-}
-        
-.error { color: red; font-weight: bold; }
+pre {
+  background-color: #E2725B;
 
-.header {
-  background-color: green;
+  padding: 15px;
+  border-radius: 5px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  color: black;
+  margin: auto;
+  max-width: 100%;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+}
+
+header {
+  background-color: #E2725B;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   padding: 20px;
   color: #FFF;
+  font-family: Verdana, Geneva, sans-serif;
+}
+
+header .p {
+  font-size: 30px;
+}
+
+.input-artista,
+.input-musica {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #F5F5DC;
+  border-radius: 30px;
+  box-sizing: border-box;
+  font-size: 20px;
+  padding-left: 40px;
+  outline: none;
+  margin: 15px;
+
+
+}
+
+.value {
+  margin: 30px;
+}
+
+.input-container {
+  position: relative;
+  display: inline-block;
+}
+
+.input-artista {
+  padding-left: 40px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.lupa-icon {
+  position: absolute;
+  left: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: auto;
+}
+
+
+
+input {
+  border-radius: 5px;
+  padding: 5px;
+  margin-left: 5px;
+  color: black;
+}
+
+main {
+  width: 100%;
+}
+
+.pesquisarMusica {
+
+  border-radius: 30px;
+  background-color: #E2725B;
+  border: none;
+  padding: 10px;
+  color: #F5F5DC;
+  font-size: 20px;
+  width: 10rem;
+  margin: auto;
+}
+
+.pesquisarMusica:hover {
+
+  background-color: #F5F5DC;
+  color: #E2725B;
+}
+
+main .resultado {
+  margin: 50px auto;
+  max-width: 800px;
 }
 
 .invi {
@@ -35,4 +121,47 @@ pre {
 
 .loading-image {
   height: 30px;
+}
+
+.search-component {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+
+.historico-container {
+  margin: 20px auto;
+  max-width: 800px;
+  padding: 20px;
+  background-color: #f5f5dc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.historico-container h2 {
+  text-align: center;
+  margin-bottom: 15px;
+  color: #333;
+  font-family: Verdana, Geneva, sans-serif;
+}
+
+.historico-container ul {
+  list-style: none;
+  padding: 0;
+}
+
+.historico-container li {
+  padding: 10px 15px;
+  margin-bottom: 8px;
+  background-color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.historico-container li:hover {
+  background-color: #e2725b;
+  color: white;
 }
