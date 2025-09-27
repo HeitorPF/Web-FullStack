@@ -14,13 +14,11 @@ Este projeto é uma aplicação web full-stack que permite aos usuários pesquis
 ## Tecnologias e Ferramentas
 - Frontend: React.js
 
-- Gerenciador de Estado: <Context API ou Redux>
+- Biblioteca Externa: Material UI
 
-- Bundle: <Webpack, Vite ou outro>
+- API:https://lrclib.net/docs
 
-- Biblioteca Externa: <Nome da biblioteca externa que você usou, por exemplo: Axios para requisições HTTP, React Router para navegação, etc.>
-
-- API: <Nome da API que você usou, por exemplo: Vagalume API, Musixmatch API, etc.>
+- Hook : useref
 
 ## Como Rodar o Projeto
 Siga estes passos para configurar e executar o projeto na sua máquina local.
@@ -32,7 +30,7 @@ Siga estes passos para configurar e executar o projeto na sua máquina local.
 1. Clone o projeto
 
 ```sh
-git clone <URL do seu repositório>
+git clone https://github.com/HeitorPF/Web-FullStack.git
 ```
 2. Instale as dependências 
 ```sh
