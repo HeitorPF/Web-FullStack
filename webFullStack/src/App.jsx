@@ -1,11 +1,11 @@
 import { useContext, useRef, useEffect } from 'react';
 import loadingImage from './assets/images/loading.gif'
 import './App.css'
-import Header from './components/Header.jsx';
-import ErroModal from './components/ErroModal.jsx';
-import HistoricoPesquisa from './components/HistoricoPesquisa.jsx';
+import Header from './components/Header/Header.jsx';
+import ErroModal from './components/ErroModal/ErroModal.jsx';
+import HistoricoPesquisa from './components/HistoricoPesquisa/HistoricoPesquisa.jsx';
 import { useLyrics } from './context/LyricsContext.jsx';
-import { MusicInfoProvider } from './context/MusicInfoContext.jsx';
+
 
 
 function App() {
@@ -42,26 +42,24 @@ function App() {
 
   return (
     <>
-      <MusicInfoProvider>
-        <Header buscaMusica={buscaMusica} rolarParaSecao={rolarParaSecao} />
-        <main>
+      <Header buscaMusica={buscaMusica} rolarParaSecao={rolarParaSecao} />
+      <main>
 
-          <div className='resultado invi ' ref={resultadoRef} id="secao-resultado">
-            <pre id="lyrics-container">{lyrics ? lyrics : <img src={loadingImage} alt="loading" className='loading-image' />}</pre>
-          </div>
+        <div className='resultado invi ' ref={resultadoRef} id="secao-resultado">
+          <pre id="lyrics-container">{lyrics ? lyrics : <img src={loadingImage} alt="loading" className='loading-image' />}</pre>
+        </div>
 
-        </main>
+      </main>
 
-        <HistoricoPesquisa
-          onBuscaHistorico={handleBuscaHistorico}
-          onExcluirHistorico={handleExcluirHistorico}
-          id="secao-historico"
-        />
-
+      <HistoricoPesquisa
+        onBuscaHistorico={handleBuscaHistorico}
+        onExcluirHistorico={handleExcluirHistorico}
+        id="secao-historico"
+      />
 
 
-        <ErroModal open={modalOpen} handleClose={fecharModal} message={errorMessage} />
-      </MusicInfoProvider>
+
+      <ErroModal open={modalOpen} handleClose={fecharModal} message={errorMessage} />
 
 
     </>

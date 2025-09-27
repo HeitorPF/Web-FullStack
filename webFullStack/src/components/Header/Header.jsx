@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import lupa from '../assets/images/lupa.png'
+import lupa from '../../assets/images/lupa.png'
+import './Header.css';
 
-// Receba 'rolarParaSecao' como uma prop
 function Header({ buscaMusica, rolarParaSecao }) {
     const [nomeArtista, setnomeArtista] = useState('');
     const [nomeMusica, setnomeMusica] = useState('');

@@ -1,5 +1,5 @@
-// src/components/HistoricoPesquisa.jsx
 import { useState, useEffect } from 'react';
+import './HistoricoPesquisa.css';
 
 function HistoricoPesquisa({ onBuscaHistorico, onExcluirHistorico, id }) {
     const [historico, setHistorico] = useState([]);

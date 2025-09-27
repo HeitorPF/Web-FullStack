@@ -31,6 +31,7 @@ const salvaHistorico = (artista, musica) => {
 
     const event = new Event('historicoAtualizado');
     window.dispatchEvent(event);
+
 };
 
 const excluirHistorico = (artista, musica) => {
@@ -48,6 +49,8 @@ const excluirHistorico = (artista, musica) => {
     window.dispatchEvent(event);
 
     console.log(`Item removido: ${artista} - ${musica}`);
+
+    window.location.reload();
 };
 
 export const LyricsContext = createContext();
@@ -60,7 +63,6 @@ export function LyricsProvider({ children }) {
     const [errorMessage, setErrorMessage] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const [avisoMessage, setAvisoMessage] = useState(''); // <-- CORRIGIDO
 
     const abrirModal = (message) => {
         setErrorMessage(message);
