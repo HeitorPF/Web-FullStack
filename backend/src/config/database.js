@@ -9,6 +9,7 @@ export async function connectDB() {
   dbInstance = client.db('teste')
   console.log('conectado no banco')
 
+  
   // const res = await database.collection('nomes').find().toArray()
   // console.log(res)
   // client.close()

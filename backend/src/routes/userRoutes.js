@@ -1,11 +1,23 @@
 import { Router } from 'express'
-import { criarNome } from '../models/user.js';
+import { criarNome, validaUsuario } from '../models/user.js';
 
 const router = Router();
 
-router.post('/nome', async (req, res) => {
+router.post('/login', async (req, res) => {
   try {
-    const novoNome = { nome: 'hpf3', idade: 60};
+    const { email, senha } = req.body
+    res.json(await validaUsuario(email, senha))
+  }
+  catch(err) {
+    console.log(err)
+  }
+})
+
+router.post('/cadastro', async (req, res) => {
+  try {
+
+    const {email, senha} = req.body
+    const novoNome = { email: email, senha: senha};
 
     const result = await criarNome(novoNome);
      

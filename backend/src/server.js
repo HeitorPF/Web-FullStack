@@ -7,6 +7,8 @@ await connectDB()
 
 const app = express()
 
+app.use(express.json())
+
 app.use('/api', userRoutes)
 
 app.get('/', (req, res) => {
@@ -20,7 +22,6 @@ app.get('/about', (req, res) => {
 app.get('/*splat', (req, res) => {
   res.status(404).send('<h1>Resource not found</h1>');
 });
-
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
