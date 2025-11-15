@@ -20,7 +20,7 @@ async function fetchLyrics(nomeArtista, nomeMusica) {
 
 
 async function adicionarMusicaHistorico(nomeMusica, nomeArtista, token) {
-    const url = 'http://localhost:3001/hist/addHistoricoMusica';
+    const url = 'http://localhost:3001/hist/adicionar';
     const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -46,7 +46,7 @@ async function adicionarMusicaHistorico(nomeMusica, nomeArtista, token) {
 }
 
 async function buscaMusicaHistorico(nomeMusica, nomeArtista, token) {
-    const url = 'http://localhost:3001/hist/buscaHistoricoMusica';
+    const url = 'http://localhost:3001/hist/busca';
     const response = await fetch(url, {
         method: 'GET',
         headers: {
@@ -73,7 +73,7 @@ async function buscaMusicaHistorico(nomeMusica, nomeArtista, token) {
 
 async function excluirHistorico(nomeMusica, nomeArtista, token) {
 
-    const url = 'http://localhost:8000/hist/deleteHistoricoMusica';
+    const url = 'http://localhost:8000/hist/deletar';
     const response = await fetch(url, {
         method: 'DELETE',
         headers: {
