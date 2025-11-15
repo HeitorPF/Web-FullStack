@@ -19,38 +19,78 @@ async function fetchLyrics(nomeArtista, nomeMusica) {
 }
 
 
-const salvaHistorico = (artista, musica) => {
-    const historicoAtual = JSON.parse(localStorage.getItem('historicoPesquisa')) || [];
-    const novaPesquisa = { artista, musica, timestamp: Date.now() };
+async function adicionarMusicaHistorico(nomeMusica, nomeArtista, token) {
+    const url = 'http://localhost:3001/hist/adicionar';
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ nomeMusica, nomeArtista }),
+    });
 
-    historicoAtual.unshift(novaPesquisa);
+    const data = await response.json();
 
-    const historicoLimitado = historicoAtual.slice(0, 10);
-
-    localStorage.setItem('historicoPesquisa', JSON.stringify(historicoLimitado));
-
-    const event = new Event('historicoAtualizado');
-    window.dispatchEvent(event);
-
-};
-
-const excluirHistorico = (artista, musica) => {
-    const historicoAtual = JSON.parse(localStorage.getItem('historicoPesquisa')) || [];
-
-    const novoHistorico = historicoAtual.filter(item =>
-        item.artista !== artista || item.musica !== musica
-    );
-
-    localStorage.setItem('historicoPesquisa', JSON.stringify(novoHistorico));
-
-
+    if (!response.ok) {
+        throw new Error(data.message || data.error || 'Erro ao adicionar música ao histórico.');
+    }
 
     const event = new Event('historicoAtualizado');
+
     window.dispatchEvent(event);
 
-    console.log(`Item removido: ${artista} - ${musica}`);
+    return data;
 
-    window.location.reload();
+
+}
+
+async function buscaMusicaHistorico(nomeMusica, nomeArtista, token) {
+    const url = 'http://localhost:3001/hist/busca';
+    const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ nomeMusica, nomeArtista }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.message || data.error || 'Erro ao buscar música ao histórico.');
+    }
+
+    const event = new Event('historicoAtualizado');
+
+    window.dispatchEvent(event);
+
+    return data;
+
+
+}
+
+async function excluirHistorico(nomeMusica, nomeArtista, token) {
+
+    const url = 'http://localhost:8000/hist/deletar';
+    const response = await fetch(url, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ nomeMusica, nomeArtista }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.message || data.error || 'Erro ao deletar música ao histórico.');
+    }
+
+    return data;
+
 };
 
 export const LyricsContext = createContext();
@@ -83,11 +123,12 @@ export function LyricsProvider({ children }) {
     }
 
 
-
     async function buscaMusica(nomeArtista, nomeMusica) {
         if (!validacaoDados(nomeArtista, nomeMusica)) {
             return;
         }
+
+
 
         setLyrics('');
         setLoading(true);
@@ -95,7 +136,7 @@ export function LyricsProvider({ children }) {
         try {
             const letraEncontrada = await fetchLyrics(nomeArtista, nomeMusica);
 
-            salvaHistorico(nomeArtista, nomeMusica);
+            adicionarMusicaHistorico(nomeArtista, nomeMusica);
             setLyrics(letraEncontrada);
 
         } catch (error) {
