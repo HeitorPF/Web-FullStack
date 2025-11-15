@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { criarNome, validaUsuario } from '../models/user.js';
+import { criarUsuario, validaUsuario } from '../models/user.js';
 
 const router = Router();
 
@@ -19,7 +19,7 @@ router.post('/cadastro', async (req, res) => {
     const {email, senha} = req.body
     const novoNome = { email: email, senha: senha};
 
-    const result = await criarNome(novoNome);
+    const result = await criarUsuario(novoNome);
      
     res.status(201).json({ message: "Cliente criado com sucesso!", result });
 
@@ -28,9 +28,5 @@ router.post('/cadastro', async (req, res) => {
     res.status(500).json({ error: "Erro ao inserir cliente" });
   }
 });
-
-router.get('/teste',  (req, res) => {
-  res.json([{name: 'poli', idade: 15}])
-})
 
 export default router;

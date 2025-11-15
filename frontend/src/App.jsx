@@ -16,9 +16,7 @@ function AppRouter() {
       <Route
         path="/"
         element={
-          <ProtectedRoute>
             <Home />
-          </ProtectedRoute>
         }
       />
 

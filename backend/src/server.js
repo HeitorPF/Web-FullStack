@@ -1,6 +1,7 @@
 import express from 'express';
 import { connectDB } from './config/database.js'
 import userRoutes from './routes/userRoutes.js'
+import historicoRoutes from './routes/historicoRoutes.js'
 
 const PORT = 8000
 await connectDB()
@@ -10,13 +11,10 @@ const app = express()
 app.use(express.json())
 
 app.use('/api', userRoutes)
+app.use('/hist', historicoRoutes)
 
 app.get('/', (req, res) => {
   res.status(200).send('Home')
-})
-
-app.get('/about', (req, res) => {
-  res.status(200).send(`I'm Heitor`)
 })
 
 app.get('/*splat', (req, res) => {
@@ -27,3 +25,12 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
 
+/*
+{
+    "message": "Cliente criado com sucesso!",
+    "result": {
+        "acknowledged": true,
+        "data": dado
+    }
+}
+*/

@@ -4,7 +4,7 @@ function getClienteCollection() {
   return getDb().collection('users');
 }
 
-export async function criarNome(novoCliente) {
+export async function criarUsuario(novoCliente) {
   const collection = getClienteCollection();
   
   return await collection.insertOne(novoCliente);
