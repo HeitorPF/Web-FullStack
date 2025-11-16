@@ -5,6 +5,7 @@ import historicoRoutes from './routes/historicoRoutes.js'
 const compression = require('compression');
 
 const PORT = 8000
+
 await connectDB()
 
 const app = express()

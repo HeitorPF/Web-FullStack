@@ -1,9 +1,10 @@
 import { Router } from 'express'
-import { adicionar, buscar, deletar } from '../models/Historico.js';
+import { adicionar, buscar, deletar } from '../models/Historico.js'
+import { expressjwt } from 'express-jwt'
 
 const router = Router();
 
-router.post('/adicionar', async (req, res) => {
+router.post('/adicionar', expressjwt({secret: 'teste', algorithms:['HS256']}),async (req, res) => {
   try {
     const { nomeArtista, nomeMusica } = req.body
 
@@ -16,7 +17,7 @@ router.post('/adicionar', async (req, res) => {
   }
 })
 
-router.get('/busca', async (req, res) => {
+router.get('/busca', expressjwt({secret: 'teste', algorithms:['HS256']}), async (req, res) => {
   try {
 
     const {nomeArtista, nomeMusica} = req.body
@@ -31,7 +32,7 @@ router.get('/busca', async (req, res) => {
   }
 });
 
-router.delete('/deletar', async (req, res) => {
+router.delete('/deletar', expressjwt({secret: 'teste', algorithms:['HS256']}), async (req, res) => {
   try{
     const {nomeArtista, nomeMusica} = req.body
 
