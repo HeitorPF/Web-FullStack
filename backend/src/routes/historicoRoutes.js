@@ -20,9 +20,9 @@ router.post('/adicionar', expressjwt({secret: 'fullstack', algorithms:['HS256']}
 router.get('/busca', expressjwt({secret: 'fullstack', algorithms:['HS256']}), async (req, res) => {
   try {
 
-    const {nomeArtista, nomeMusica} = req.body
+    const {nomeArtista, nomeMusica, emailUsuario} = req.body
 
-    const result = await buscar(nomeArtista, nomeMusica);
+    const result = await buscar(nomeArtista, nomeMusica, emailUsuario);
      
     res.status(201).json({ message: "Busca realizada!", result });
 

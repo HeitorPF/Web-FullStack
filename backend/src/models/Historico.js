@@ -19,14 +19,15 @@ export async function adicionar(nomeArtista, nomeMusica) {
   return resultado;
 }
 
-export async function buscar(nomeArtista, nomeMusica) {
+export async function buscar(nomeArtista, nomeMusica, emailUsuario) {
   const collection = getClienteCollection();
   const artistaSanitizado = String(nomeArtista).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const musicaSanitizada = String(nomeMusica).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
   const query = {
     nomeArtista: { $regex: artistaSanitizado, $options: 'i' },
-    nomeMusica: { $regex: musicaSanitizada, $options: 'i' }
+    nomeMusica: { $regex: musicaSanitizada, $options: 'i' },
+    emailUsuario: emailUsuario
   };
 
   return await collection.find(query).toArray();
