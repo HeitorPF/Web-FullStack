@@ -3,7 +3,7 @@ import { Button, Card, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import "./Register.css";
 
-const API_URL = 'http://localhost:3001/user/cadastro';
+const API_URL = 'http://localhost:3001/user/register';
 
 async function cadastrarUsuario(email, senha) {
     try {
