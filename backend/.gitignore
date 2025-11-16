@@ -1,5 +1,0 @@
-*node_modules
-
-# Certificados SSL locais
-src/localhost.pem
-*localhost-key.pem

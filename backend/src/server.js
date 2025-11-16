@@ -22,7 +22,6 @@ const app = express()
 app.use(express.json())
 
 app.use(compression());
-
 app.use(cors());
 
 app.use('/user', userRoutes)

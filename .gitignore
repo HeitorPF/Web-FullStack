@@ -1,1 +1,5 @@
-backend/localhost.pem
+*node_modules
+
+# Certificados SSL locais
+*localhost.pem
+*localhost-key.pem
