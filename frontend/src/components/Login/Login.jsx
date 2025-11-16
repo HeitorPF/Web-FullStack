@@ -50,8 +50,7 @@ export default function Login() {
             localStorage.setItem('token', resultado.result.token);
 
 
-            // Exemplo de redirecionamento:
-            // navigate('/');
+            navigate('/');
         } catch (error) {
             alert(`Erro: ${error.message}`);
         }
