@@ -25,13 +25,13 @@ export async function validaUsuario(email, senha) {
   const collection = getClienteCollection();
 
   const usuario = await collection.findOne({ email: email });
-
+  console.log(usuario)
   if (!usuario) {
     return null;
   }
 
   const senhaCorreta = await bcrypt.compare(senha, usuario.senha);
-
+  console.log(senhaCorreta)
   if (senhaCorreta) {
     delete usuario.senha;
     return usuario;

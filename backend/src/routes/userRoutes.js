@@ -10,14 +10,16 @@ router.post('/login', async (req, res) => {
   try {
     const { email, senha } = req.body
     const resultado = await validaUsuario(email, senha)
-    if(resultado != []) {
+    if(resultado) {
       const token = jwt.sign({email: email}, chave)
       res.status(201).json({ message: "Login realizado!", result: {token: token}});
     }
+    console.log(resultado)
+    res.status(401).json({ message: "usuario não encontrado!", result: resultado});
   }
   catch (err) {
     console.log(err)
-     res.status(401).json({ message: "Falha ao logar!",  result: {error: err}});
+    res.status(401).json({ message: "Falha ao logar!",  result: {error: err}});
   }
 })
 

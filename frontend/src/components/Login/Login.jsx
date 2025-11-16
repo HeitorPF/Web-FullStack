@@ -3,7 +3,7 @@ import { Button, Card, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 
-const API_URL = 'http://localhost:3001/user/login';
+const API_URL = 'https://localhost:8000/user/login';
 
 async function loginUsuario(email, senha) {
     try {
