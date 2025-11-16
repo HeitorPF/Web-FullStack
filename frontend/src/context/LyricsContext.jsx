@@ -27,7 +27,7 @@ async function adicionarMusicaHistorico(nomeMusica, nomeArtista, token) {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ nomeMusica, nomeArtista }),
+        body: JSON.stringify({ nomeMusica, nomeArtista, token }),
     });
 
     const data = await response.json();
@@ -53,7 +53,7 @@ async function buscaMusicaHistorico(nomeMusica, nomeArtista, token) {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ nomeMusica, nomeArtista }),
+        body: JSON.stringify({ nomeMusica, nomeArtista, token }),
     });
 
     const data = await response.json();
@@ -153,9 +153,10 @@ export function LyricsProvider({ children }) {
         modalOpen,
         errorMessage,
         loading,
-        buscaMusica,
         fecharModal,
-        excluirHistorico,
+        adicionarMusicaHistorico: (musica, artista) => adicionarMusicaHistorico(musica, artista, userToken),
+        buscaMusicaHistorico: (musica, artista) => buscaMusicaHistorico(musica, artista, userToken),
+        excluirHistorico: (musica, artista) => excluirHistorico(musica, artista, userToken),
 
     };
 

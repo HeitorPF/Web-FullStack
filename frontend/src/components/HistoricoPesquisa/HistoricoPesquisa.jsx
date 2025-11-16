@@ -1,18 +1,65 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './HistoricoPesquisa.css';
+import { useLyrics } from '../../context/LyricsContext';
 
-function HistoricoPesquisa({ onBuscaHistorico, onExcluirHistorico, id }) {
+
+function HistoricoPesquisa({ onBuscaHistorico, id }) {
+    const {
+        buscaMusicaHistorico,
+        excluirHistorico,
+        userEmail,
+        userToken
+    } = useLyrics();
+
     const [historico, setHistorico] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    const carregarHistorico = async () => {
+        if (!userToken || !userEmail) {
+            setHistorico([]);
+            setLoading(false);
+            return;
+        }
+
+        try {
+            setLoading(true);
+
+            const lista = await buscaMusicaHistorico("placeholder", "placeholder", userToken, userEmail);
+
+            setHistorico(lista);
+        } catch (error) {
+            console.error("Erro ao carregar histórico:", error);
+            setHistorico([]);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const historicoSalvo = JSON.parse(localStorage.getItem('historicoPesquisa')) || [];
-        setHistorico(historicoSalvo);
+        carregarHistorico();
 
-        window.addEventListener('storage', () => {
-            const historicoAtualizado = JSON.parse(localStorage.getItem('historicoPesquisa')) || [];
-            setHistorico(historicoAtualizado);
-        });
-    }, []);
+        const handleAtualizacao = () => carregarHistorico();
+        window.addEventListener('historicoAtualizado', handleAtualizacao);
+
+        return () => {
+            window.removeEventListener('historicoAtualizado', handleAtualizacao);
+        };
+    }, [userToken, userEmail, buscaMusicaHistorico]);
+
+    const handleExcluir = async (artista, musica) => {
+        try {
+            await excluirHistorico(musica, artista, userToken);
+
+        } catch (error) {
+            console.error("Falha ao deletar item:", error);
+        }
+    };
+
+
+    if (loading) {
+        return <div id={id} className="historico-container"><p>Carregando histórico...</p></div>;
+    }
+
 
     return (
         <div id={id} className="historico-container">
@@ -25,8 +72,8 @@ function HistoricoPesquisa({ onBuscaHistorico, onExcluirHistorico, id }) {
                             <button
                                 className="btn-excluir"
                                 onClick={(e) => {
-                                    e.stopPropagation(); // Previne que o clique dispare a re-busca (onClick do <li>)
-                                    onExcluirHistorico(item.artista, item.musica);
+                                    e.stopPropagation();
+                                    handleExcluir(item.artista, item.musica);
                                 }}
                             >
                                 X
