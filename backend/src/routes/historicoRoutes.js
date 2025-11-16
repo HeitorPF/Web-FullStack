@@ -1,14 +1,14 @@
 import { Router } from 'express'
-import { adicionar, buscar, deletar } from '../models/Historico.js';
+import { adicionar, buscar, deletar } from '../models/Historico.js'
+import { expressjwt } from 'express-jwt'
 
 const router = Router();
 
-//adicionar música no histórico
-router.post('/adicionar', jwt_middleware({secret: 'teste', algorithms:['HS256']}),async (req, res) => {
+router.post('/adicionar', expressjwt({secret: 'teste', algorithms:['HS256']}),async (req, res) => {
   try {
-    const { nomeArtista, nomeMusica } = req.body //recupera nome de artista e música passados
-    console.log(req.user.email)
-    const result = await adicionar(nomeArtista, nomeMusica) //utiliza a função para adicionar o banco de dados
+    const { nomeArtista, nomeMusica } = req.body
+
+    const result = await adicionar(nomeArtista, nomeMusica)
     res.status(201).json({ message: "Musica adicionada ao histórico!", result });
   }
   catch(err) {
@@ -17,7 +17,7 @@ router.post('/adicionar', jwt_middleware({secret: 'teste', algorithms:['HS256']}
   }
 })
 
-router.get('/busca', async (req, res) => {
+router.get('/busca', expressjwt({secret: 'teste', algorithms:['HS256']}), async (req, res) => {
   try {
 
     const {nomeArtista, nomeMusica} = req.body
@@ -32,7 +32,7 @@ router.get('/busca', async (req, res) => {
   }
 });
 
-router.delete('/deletar', async (req, res) => {
+router.delete('/deletar', expressjwt({secret: 'teste', algorithms:['HS256']}), async (req, res) => {
   try{
     const {nomeArtista, nomeMusica} = req.body
 
