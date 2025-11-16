@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"
 import "./Login.css";
 
 const API_URL = 'https://localhost:8000/user/login';
@@ -42,15 +42,13 @@ export default function Login() {
 
 
         try {
-            // Chame a função de serviço com os valores do estado:
+        
             const resultado = await loginUsuario(email, password); // Note que `password` é o seu estado.
 
             // Se o login for bem-sucedido, redirecione o usuário
             alert(`Login realizado com sucesso: ${resultado.result.token}`);
             localStorage.setItem('token', resultado.result.token);
-
-
-            navigate('/');
+            navigate('/')
         } catch (error) {
             alert(`Erro: ${error.message}`);
         }

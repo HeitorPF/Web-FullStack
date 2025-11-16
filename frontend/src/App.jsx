@@ -3,8 +3,8 @@ import { Routes, Route } from 'react-router-dom';
 import Home from './Home.jsx';
 import Login from './components/Login/Login.jsx';
 import Register from './components/Register/Register.jsx';
+import PrivateRoutes from './components/PrivateRoutes.jsx';
 import './App.css';
-import ProtectedRoute from './components/ProtectedRoute.jsx';
 
 function AppRouter() {
   return (
@@ -12,14 +12,9 @@ function AppRouter() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
 
-      <Route
-        path="/"
-        element={
-          <ProtectedRoute>
-            <Home />
-          </ProtectedRoute>
-        }
-      />
+      <Route element={<PrivateRoutes />}>
+              <Route path='/' element={<Home/>} />
+      </Route>
 
     </Routes >
   );
