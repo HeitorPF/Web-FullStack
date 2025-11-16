@@ -1,4 +1,4 @@
-# Backend da Aplicação [Nome da Sua Aplicação]
+# Backend da Aplicação
 
 Este é o servidor backend para a aplicação [Nome da Aplicação], responsável pela autenticação de usuários, gerenciamento de [histórico, etc.] e fornecimento de dados para o frontend.
 
@@ -48,7 +48,10 @@ O servidor precisa dos certificados SSL Para funcionar.
 
 Este servidor é configurado para rodar em `https` e requer certificados SSL válidos para `localhost`.
 
-1.  **Instale o `mkcert`** (se ainda não o fez, veja os pré-requisitos).
+1.  **Instale o `mkcert`** 
+    ```sh
+        choco install mkcert
+    ```
 
 2.  Abra um terminal **como Administrador** e rode (apenas uma vez):
     ```sh
@@ -79,9 +82,7 @@ Depois de instalar as dependências e configurar o SSL, você pode iniciar o ser
 node server.js
 ```
 
-*(Recomendação: Adicione `"start": "node src/server.js"` ao seu `package.json` na seção `scripts`)*.
-
-O servidor estará rodando em: **`https://localhost:3001`**
+O servidor estará rodando em: **`https://localhost:8000`**
 
 ## 🌐 Endpoints da API
 
