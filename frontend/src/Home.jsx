@@ -4,7 +4,7 @@ import loadingImage from './assets/images/loading.gif';
 import Header from './components/Header/Header.jsx';
 import ErroModal from './components/ErroModal/ErroModal.jsx';
 import HistoricoPesquisa from './components/HistoricoPesquisa/HistoricoPesquisa.jsx';
-import { useLyrics } from './context/LyricsContext.jsx';
+import { useLyrics } from './context/LyricsContext.jsx'
 import './App.css'; // Mantenha a importação de CSS
 
 function Home() {
