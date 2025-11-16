@@ -4,12 +4,13 @@ function getClienteCollection() {
   return getDb().collection('historico');
 }
 
-export async function adicionar(nomeArtista, nomeMusica) {
+export async function adicionar(nomeArtista, nomeMusica, emailUsuario) {
   const collection = getClienteCollection();
 
   const registro = {
     nomeArtista: String(nomeArtista),
-    nomeMusica: String(nomeMusica)
+    nomeMusica: String(nomeMusica),
+    emailUsuario: String(emailUsuario)
   };
 
   const resultado = await collection.insertOne(registro);
@@ -34,12 +35,13 @@ export async function buscar(nomeArtista, nomeMusica, emailUsuario) {
 }
 
 
-export async function deletar(nomeArtista, nomeMusica) {
+export async function deletar(nomeArtista, nomeMusica, emailUsuario) {
   const collection = getClienteCollection();
 
   const query = {
     nomeArtista: String(nomeArtista),
-    nomeMusica: String(nomeMusica)
+    nomeMusica: String(nomeMusica),
+    emailUsuario: String(emailUsuario)
   };
 
   return await collection.deleteOne(query);

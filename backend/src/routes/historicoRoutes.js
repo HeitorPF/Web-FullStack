@@ -1,14 +1,16 @@
 import { Router } from 'express'
 import { adicionar, buscar, deletar } from '../models/Historico.js'
 import { expressjwt } from 'express-jwt'
+import jwt from 'jsonwebtoken'
 
 const router = Router();
 
 router.post('/adicionar', expressjwt({secret: 'fullstack', algorithms:['HS256']}),async (req, res) => {
   try {
-    const { nomeArtista, nomeMusica } = req.body
+    const { nomeArtista, nomeMusica, token } = req.body
 
-    const result = await adicionar(nomeArtista, nomeMusica)
+    const dados = jwt.verify(token, 'fullstack')
+    const result = await adicionar(nomeArtista, nomeMusica, dados.email)
     res.status(201).json({ message: "Musica adicionada ao histórico!", result });
   }
   catch(err) {
@@ -20,9 +22,11 @@ router.post('/adicionar', expressjwt({secret: 'fullstack', algorithms:['HS256']}
 router.get('/busca', expressjwt({secret: 'fullstack', algorithms:['HS256']}), async (req, res) => {
   try {
 
-    const {nomeArtista, nomeMusica, emailUsuario} = req.body
+    const {nomeArtista, nomeMusica, token} = req.body
+    const dados = jwt.verify(token, 'fullstack')
 
-    const result = await buscar(nomeArtista, nomeMusica, emailUsuario);
+    console.log(dados)
+    const result = await buscar(nomeArtista, nomeMusica, dados.email);
      
     res.status(201).json({ message: "Busca realizada!", result });
 
@@ -34,9 +38,10 @@ router.get('/busca', expressjwt({secret: 'fullstack', algorithms:['HS256']}), as
 
 router.delete('/deletar', expressjwt({secret: 'fullstack', algorithms:['HS256']}), async (req, res) => {
   try{
-    const {nomeArtista, nomeMusica} = req.body
+    const {nomeArtista, nomeMusica, token} = req.body
+    const dados = jwt.verify(token, 'fullstack')
 
-    const result = await deletar(nomeArtista, nomeMusica)
+    const result = await deletar(nomeArtista, nomeMusica, dados.email)
 
     res.status(201).json({ message: "Música excluída!", result });
 

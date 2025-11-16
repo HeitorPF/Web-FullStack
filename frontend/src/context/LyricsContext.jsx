@@ -27,7 +27,7 @@ async function adicionarMusicaHistorico(nomeMusica, nomeArtista, token) {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ nomeMusica, nomeArtista }),
+        body: JSON.stringify({ nomeMusica, nomeArtista, token }),
     });
 
     const data = await response.json();
@@ -53,7 +53,7 @@ async function buscaMusicaHistorico(nomeMusica, nomeArtista, token) {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ nomeMusica, nomeArtista }),
+        body: JSON.stringify({ nomeMusica, nomeArtista, token }),
     });
 
     const data = await response.json();
@@ -80,7 +80,7 @@ async function excluirHistorico(nomeMusica, nomeArtista, token) {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ nomeMusica, nomeArtista }),
+        body: JSON.stringify({ nomeMusica, nomeArtista, token }),
     });
 
     const data = await response.json();
@@ -95,13 +95,14 @@ async function excluirHistorico(nomeMusica, nomeArtista, token) {
 
 export const LyricsContext = createContext();
 
-
 export function LyricsProvider({ children }) {
 
     const [lyrics, setLyrics] = useState('');
     const [modalOpen, setModalOpen] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [loading, setLoading] = useState(false);
+
+    let token = localStorage.getItem('token')
 
 
     const abrirModal = (message) => {
@@ -136,7 +137,7 @@ export function LyricsProvider({ children }) {
         try {
             const letraEncontrada = await fetchLyrics(nomeArtista, nomeMusica);
 
-            adicionarMusicaHistorico(nomeArtista, nomeMusica);
+            adicionarMusicaHistorico(nomeArtista, nomeMusica, token);
             setLyrics(letraEncontrada);
 
         } catch (error) {
