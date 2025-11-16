@@ -2,6 +2,7 @@ import express from 'express';
 import { connectDB } from './config/database.js'
 import userRoutes from './routes/userRoutes.js'
 import historicoRoutes from './routes/historicoRoutes.js'
+const compression = require('compression');
 
 const PORT = 8000
 
@@ -11,7 +12,9 @@ const app = express()
 
 app.use(express.json())
 
-app.use('/user', userRoutes)
+app.use(compression());
+
+app.use('/api', userRoutes)
 app.use('/hist', historicoRoutes)
 
 app.get('/', (req, res) => {

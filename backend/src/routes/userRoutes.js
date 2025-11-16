@@ -15,20 +15,20 @@ router.post('/login', async (req, res) => {
       res.status(201).json({ message: "Login realizado!", result: {token: token}});
     }
   }
-  catch(err) {
+  catch (err) {
     console.log(err)
      res.status(401).json({ message: "Falha ao logar!",  result: {error: err}});
   }
 })
 
-router.post('/cadastro', async (req, res) => {
+router.post('/register', async (req, res) => {
   try {
 
-    const {email, senha} = req.body
-    const novoNome = { email: email, senha: senha};
+    const { email, senha } = req.body
+    const novoNome = { email: email, senha: senha };
 
     const result = await criarUsuario(novoNome);
-     
+
     res.status(201).json({ message: "Cliente criado com sucesso!", result });
 
   } catch (err) {

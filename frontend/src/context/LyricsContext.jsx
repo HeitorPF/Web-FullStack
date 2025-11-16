@@ -73,7 +73,7 @@ async function buscaMusicaHistorico(nomeMusica, nomeArtista, token) {
 
 async function excluirHistorico(nomeMusica, nomeArtista, token) {
 
-    const url = 'http://localhost:8000/hist/deletar';
+    const url = 'http://localhost:3001/hist/deletar';
     const response = await fetch(url, {
         method: 'DELETE',
         headers: {
