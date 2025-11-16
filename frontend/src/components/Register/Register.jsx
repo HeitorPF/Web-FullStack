@@ -3,7 +3,7 @@ import { Button, Card, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import "./Register.css";
 
-const API_URL = 'http://localhost:3001/user/register';
+const API_URL = 'https://localhost:8000/user/register';
 
 async function cadastrarUsuario(email, senha) {
     try {
@@ -45,8 +45,13 @@ export default function Login() {
 
 
         try {
-            const resultado = await cadastrarUsuario(email, senha);
-            alert(`Cadastro realizado com sucesso: ${resultado.message}`);
+            const resultado = await cadastrarUsuario(email, password);
+            if(resultado.result){
+                alert(`Cadastro realizado com sucesso: ${resultado.message}`);
+            }
+            else{
+                alert(resultado.message)
+            }
         } catch (error) {
             alert(`Erro: ${error.message}`);
         }

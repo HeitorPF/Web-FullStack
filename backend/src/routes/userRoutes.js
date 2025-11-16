@@ -25,14 +25,14 @@ router.post('/login', async (req, res) => {
 
 router.post('/register', async (req, res) => {
   try {
-    
     const { email, senha } = req.body
-    if(buscaEmail(email)){
+    if(await buscaEmail(email)){
       res.json({ message: "Email ja existe", result: null })
     }
     else{
       const novoNome = { email: email, senha: senha };
       const result = await criarUsuario(novoNome);
+      console.log(result)
       res.status(201).json({ message: "Cliente criado com sucesso!", result });
     }
     

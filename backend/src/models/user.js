@@ -40,8 +40,7 @@ export async function validaUsuario(email, senha) {
 export async function buscaEmail(email) {
   const collection = getClienteCollection();
 
-  const user = collection.findOne({email: email})
-
+  const user = await collection.findOne({email: email})
   if(user){
     return user.email
   }
