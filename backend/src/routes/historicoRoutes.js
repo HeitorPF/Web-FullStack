@@ -4,7 +4,7 @@ import { expressjwt } from 'express-jwt'
 
 const router = Router();
 
-router.post('/adicionar', expressjwt({secret: 'teste', algorithms:['HS256']}),async (req, res) => {
+router.post('/adicionar', expressjwt({secret: 'fullstack', algorithms:['HS256']}),async (req, res) => {
   try {
     const { nomeArtista, nomeMusica } = req.body
 
@@ -17,7 +17,7 @@ router.post('/adicionar', expressjwt({secret: 'teste', algorithms:['HS256']}),as
   }
 })
 
-router.get('/busca', expressjwt({secret: 'teste', algorithms:['HS256']}), async (req, res) => {
+router.get('/busca', expressjwt({secret: 'fullstack', algorithms:['HS256']}), async (req, res) => {
   try {
 
     const {nomeArtista, nomeMusica} = req.body
@@ -32,7 +32,7 @@ router.get('/busca', expressjwt({secret: 'teste', algorithms:['HS256']}), async 
   }
 });
 
-router.delete('/deletar', expressjwt({secret: 'teste', algorithms:['HS256']}), async (req, res) => {
+router.delete('/deletar', expressjwt({secret: 'fullstack', algorithms:['HS256']}), async (req, res) => {
   try{
     const {nomeArtista, nomeMusica} = req.body
 

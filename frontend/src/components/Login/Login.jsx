@@ -3,7 +3,7 @@ import { Button, Card, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 
-const API_URL = 'http://localhost:3001/user/login';
+const API_URL = 'https://localhost:8000/user/login';
 
 async function loginUsuario(email, senha) {
     try {
@@ -46,10 +46,12 @@ export default function Login() {
             const resultado = await loginUsuario(email, password); // Note que `password` é o seu estado.
 
             // Se o login for bem-sucedido, redirecione o usuário
-            alert(`Login realizado com sucesso: ${resultado.message}`);
+            alert(`Login realizado com sucesso: ${resultado.result.token}`);
+            localStorage.setItem('token', resultado.result.token);
+
 
             // Exemplo de redirecionamento:
-            // navigate('/dashboard');
+            // navigate('/');
         } catch (error) {
             alert(`Erro: ${error.message}`);
         }
