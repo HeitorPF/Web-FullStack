@@ -156,9 +156,9 @@ export function LyricsProvider({ children }) {
         loading,
         fecharModal,
         buscaMusica,
-        adicionarMusicaHistorico: (musica, artista) => adicionarMusicaHistorico(musica, artista, userToken),
-        buscaMusicaHistorico: (musica, artista) => buscaMusicaHistorico(musica, artista, userToken),
-        excluirHistorico: (musica, artista) => excluirHistorico(musica, artista, userToken),
+        adicionarMusicaHistorico: (musica, artista) => adicionarMusicaHistorico(musica, artista, token),
+        buscaMusicaHistorico: (musica, artista) => buscaMusicaHistorico(musica, artista, token),
+        excluirHistorico: (musica, artista) => excluirHistorico(musica, artista, token),
 
     };
 
