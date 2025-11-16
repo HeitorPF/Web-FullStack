@@ -154,6 +154,7 @@ export function LyricsProvider({ children }) {
         errorMessage,
         loading,
         fecharModal,
+        buscaMusica,
         adicionarMusicaHistorico: (musica, artista) => adicionarMusicaHistorico(musica, artista, userToken),
         buscaMusicaHistorico: (musica, artista) => buscaMusicaHistorico(musica, artista, userToken),
         excluirHistorico: (musica, artista) => excluirHistorico(musica, artista, userToken),

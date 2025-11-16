@@ -8,7 +8,7 @@ import { useLyrics } from './context/LyricsContext.jsx';
 import './App.css'; // Mantenha a importação de CSS
 
 function Home() {
-    const { lyrics, modalOpen, errorMessage, loading, fecharModal, buscaMusica, excluirHistorico } = useLyrics();
+    const { lyrics, modalOpen, errorMessage, loading, fecharModal, buscaMusica, buscaMusicaHistorico, excluirHistorico } = useLyrics();
 
     const resultadoRef = useRef(null);
 
