@@ -4,13 +4,14 @@ import userRoutes from './routes/userRoutes.js'
 import historicoRoutes from './routes/historicoRoutes.js'
 
 const PORT = 8000
+
 await connectDB()
 
 const app = express()
 
 app.use(express.json())
 
-app.use('/api', userRoutes)
+app.use('/user', userRoutes)
 app.use('/hist', historicoRoutes)
 
 app.get('/', (req, res) => {

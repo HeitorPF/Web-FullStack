@@ -16,7 +16,6 @@ export async function validaUsuario(email, senha) {
   const query = {email: email, senha:senha}
 
   let resultado = await collection.find(query).toArray()
-  console.log(resultado)
 
   return resultado
 }
