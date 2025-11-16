@@ -2,7 +2,7 @@ import express from 'express'
 import https from 'https'
 import cors from 'cors'
 import fs from 'fs'
-import path from 'path';  
+import path from 'path'
 import { fileURLToPath } from 'url'
 
 import { connectDB } from './config/database.js'
@@ -26,15 +26,6 @@ app.use(cors());
 
 app.use('/user', userRoutes)
 app.use('/hist', historicoRoutes)
-
-app.get('/', (req, res) => {
-  res.status(200).send('Home')
-})
-
-app.get('/*splat', (req, res) => {
-  res.status(404).send('<h1>Resource not found</h1>');
-});
-
 
 const options = {
   key: fs.readFileSync(path.join(__dirname, 'localhost-key.pem')),
