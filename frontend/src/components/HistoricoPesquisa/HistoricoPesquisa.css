@@ -1,4 +1,5 @@
 .pesquisarMusica,
+.sairHome,
 .btn-historico {
 
     border-radius: 30px;
@@ -13,6 +14,7 @@
 }
 
 .pesquisarMusica:hover,
+.sairHome:hover,
 .btn-historico:hover {
 
     background-color: #F5F5DC;

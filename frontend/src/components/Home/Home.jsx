@@ -1,16 +1,19 @@
 // src/Home.jsx (ou AppContent.jsx, seu conteúdo principal)
 import { useRef, useEffect } from 'react';
-import loadingImage from './assets/images/loading.gif';
-import Header from './components/Header/Header.jsx';
-import ErroModal from './components/ErroModal/ErroModal.jsx';
-import HistoricoPesquisa from './components/HistoricoPesquisa/HistoricoPesquisa.jsx';
-import { useLyrics } from './context/LyricsContext.jsx'
-import './App.css'; // Mantenha a importação de CSS
+import loadingImage from "../../assets/images/loading.gif"; import Header from '../Header/Header.jsx';
+import ErroModal from '../ErroModal/ErroModal.jsx';
+import HistoricoPesquisa from '../HistoricoPesquisa/HistoricoPesquisa.jsx';
+import { useLyrics } from '../../context/LyricsContext.jsx'
+import './Home.css';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
     const { lyrics, modalOpen, errorMessage, loading, fecharModal, buscaMusica, buscaMusicaHistorico, excluirHistorico } = useLyrics();
 
     const resultadoRef = useRef(null);
+
+    const navigate = useNavigate();
+    const { setToken } = useLyrics();
 
     useEffect(() => {
         if (resultadoRef.current) {
@@ -43,9 +46,19 @@ function Home() {
         }
     };
 
+    const sairHome = () => {
+
+        setToken(null);
+
+        localStorage.removeItem('token');
+
+        navigate('/login');
+    };
+
+
     return (
         <>
-            <Header buscaMusica={buscaMusica} rolarParaSecao={rolarParaSecao} />
+            <Header buscaMusica={buscaMusica} rolarParaSecao={rolarParaSecao} sairHome={sairHome} />
             <main>
                 <div className='resultado invi' ref={resultadoRef} id="secao-resultado">
                     <pre id="lyrics-container">{lyrics ? lyrics : <img src={loadingImage} alt="loading" className='loading-image' />}</pre>

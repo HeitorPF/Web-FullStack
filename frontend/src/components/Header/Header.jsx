@@ -2,7 +2,7 @@ import { useState } from 'react';
 import lupa from '../../assets/images/lupa.png'
 import './Header.css';
 
-function Header({ buscaMusica, rolarParaSecao }) {
+function Header({ buscaMusica, rolarParaSecao, sairHome }) {
     const [nomeArtista, setnomeArtista] = useState('');
     const [nomeMusica, setnomeMusica] = useState('');
 
@@ -57,7 +57,6 @@ function Header({ buscaMusica, rolarParaSecao }) {
 
                 </div>
 
-                { }
                 <div className='search-component menu-spa'>
                     <button
                         className='btn-historico'
@@ -65,7 +64,14 @@ function Header({ buscaMusica, rolarParaSecao }) {
                         Ver histórico
                     </button>
                 </div>
-                { }
+
+                <div className='search-component'>
+
+                    <button className='sairHome' onClick={() => sairHome()}>
+                        Sair
+                    </button>
+
+                </div>
 
             </div>
 

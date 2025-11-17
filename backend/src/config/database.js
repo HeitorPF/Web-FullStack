@@ -2,7 +2,12 @@ import { MongoClient } from 'mongodb';
 
 
 const uri = 'mongodb://localhost:27017/';
-const client = new MongoClient(uri);
+const client = new MongoClient(uri, {
+  maxPoolSize: 10,
+  maxIdleTimeMS: 60000,
+  serverSelectionTimeoutMS: 5000,
+});
+
 let dbInstance
 
 export async function connectDB() {

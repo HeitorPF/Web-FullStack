@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Card, Form } from "react-bootstrap";
+import { Button, Card, Form, Modal } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom"
 import { useLyrics } from "../../context/LyricsContext";
 import "./Login.css";
@@ -37,19 +37,34 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
-        const { setToken } = useLyrics()
+    const [showModal, setShowModal] = useState(false);
+    const [modalTitle, setModalTitle] = useState('');
+    const [modalBody, setModalBody] = useState('');
+    const [modalVariant, setModalVariant] = useState('success'); // 'success' ou 'danger'
+
+    const handleCloseModal = () => setShowModal(false);
+
+    const { setToken } = useLyrics()
 
     const handleLogin = async (e) => {
         e.preventDefault();
 
 
         try {
-        
+
             const resultado = await loginUsuario(email, password);
 
-            alert(`Login realizado com sucesso: ${resultado.result.token}`);
-            setToken(resultado.result.token)
-            navigate('/')
+            setToken(resultado.result.token);
+
+            setModalTitle('Login Bem-Sucedido');
+            setModalBody('Login realizado com sucesso! Redirecionando para a página inicial.');
+            setModalVariant('success');
+            setShowModal(true);
+
+            setTimeout(() => {
+                handleCloseModal();
+                navigate('/');
+            }, 1700);
         } catch (error) {
             alert(`Erro: ${error.message}`);
         }
@@ -100,6 +115,21 @@ export default function Login() {
                     </div>
                 </Form>
             </Card>
+
+            { }
+            <Modal show={showModal} onHide={handleCloseModal}>
+                <Modal.Header closeButton className={`bg-${modalVariant}`}>
+                    <Modal.Title
+                        style={{ color: modalVariant === 'success' ? '#fff' : '#fff' }}
+                    >
+                        {modalTitle}
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p>{modalBody}</p>
+                </Modal.Body>
+
+            </Modal>
         </div>
     );
 }

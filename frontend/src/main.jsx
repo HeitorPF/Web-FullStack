@@ -9,10 +9,12 @@ import { LyricsProvider } from './context/LyricsContext.jsx'
 import { ModalProvider } from './context/ModalContext.jsx';
 
 
+const basename = '/WebFullStack/';
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     { }
-    <BrowserRouter basename="/webFullStack">
+    <BrowserRouter basename={basename}>
       <ModalProvider>
         <LyricsProvider>
           <AppRouter />
