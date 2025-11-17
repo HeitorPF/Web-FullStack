@@ -100,6 +100,10 @@ export function LyricsProvider({ children }) {
         }
     };
 
+    const limparLyrics = () => {
+        setLyrics(null); // ou setLyrics('');
+    };
+
     useEffect(() => {
         const storedToken = localStorage.getItem('token');
         if (storedToken && !token) {
@@ -160,6 +164,7 @@ export function LyricsProvider({ children }) {
         fecharModal,
         setToken,
         buscaMusica,
+        limparLyrics,
         adicionarMusicaHistorico: (musica, artista) => adicionarMusicaHistorico(musica, artista, token),
         buscaMusicaHistorico: (musica, artista) => buscaMusicaHistorico(musica, artista, token),
         excluirHistorico: (musica, artista) => excluirHistorico(musica, artista, token),
