@@ -1,6 +1,6 @@
 # Backend da Aplicação
 
-Este é o servidor backend para a aplicação [Nome da Aplicação], responsável pela autenticação de usuários, gerenciamento de [histórico, etc.] e fornecimento de dados para o frontend.
+Este é o servidor backend para a aplicação, responsável pela autenticação de usuários, gerenciamento de [histórico, etc.] e fornecimento de dados para o frontend.
 
 O servidor é construído em **Node.js** com **Express** e se conecta a um banco de dados **MongoDB**.
 
