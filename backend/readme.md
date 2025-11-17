@@ -29,11 +29,11 @@ Para rodar este projeto localmente, você precisará ter o Node.js, MongoDB (loc
 
 1.  Clone este repositório:
     ```sh
-    git clone [URL_DO_SEU_REPOSITORIO]
+    git clone https://github.com/HeitorPF/Web-FullStack.git
     ```
 2.  Navegue até a pasta do projeto:
     ```sh
-    cd backend-da-aplicacao
+    cd backend
     ```
 3.  Instale as dependências:
     ```sh
@@ -79,7 +79,7 @@ Este servidor é configurado para rodar em `https` e requer certificados SSL vá
 Depois de instalar as dependências e configurar o SSL, você pode iniciar o servidor.
 
 ```sh
-node server.js
+node app.js
 ```
 
 O servidor estará rodando em: **`https://localhost:8000`**
