@@ -7,20 +7,19 @@ function HistoricoPesquisa({ onBuscaHistorico, id }) {
     const {
         buscaMusicaHistorico,
         excluirHistorico,
+        token,
+        buscaMusica,
     } = useLyrics();
 
     const [historico, setHistorico] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    let token = localStorage.getItem('token')
 
 
     const carregarHistorico = async () => {
 
         try {
             setLoading(true);
-
-            let token = localStorage.getItem('token');
 
             console.log(token);
 
@@ -55,6 +54,7 @@ function HistoricoPesquisa({ onBuscaHistorico, id }) {
     const handleExcluir = async (artista, musica) => {
         try {
             await excluirHistorico(musica, artista, token);
+            await carregarHistorico()
 
         } catch (error) {
             console.error("Falha ao deletar item:", error);
@@ -73,7 +73,7 @@ function HistoricoPesquisa({ onBuscaHistorico, id }) {
             {historico.length > 0 ? (
                 <ul>
                     {historico.map((item, index) => (
-                        <li key={index} onClick={() => onBuscaHistorico(item.nomeArtista, item.nomeMusica)}>
+                        <li key={index} onClick={() => buscaMusica(item.nomeArtista, item.nomeMusica)}>
                             <strong>{item.nomeArtista}</strong> - {item.nomeMusica}
                             <button
                                 className="btn-excluir"

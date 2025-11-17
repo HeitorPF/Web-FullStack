@@ -104,12 +104,12 @@ export function LyricsProvider({ children }) {
         if (!validacaoDados(nomeArtista, nomeMusica)) {
             return;
         }
+        console.log(nomeArtista, nomeMusica)
         setLyrics('');
         setLoading(true);
         try {
             const letraEncontrada = await fetchLyrics(nomeArtista, nomeMusica);
 
-            // 6. Adiciona ao histórico APENAS se o usuário estiver logado
             if (token) {
                 await adicionarMusicaHistorico(nomeArtista, nomeMusica, token);
             }
@@ -135,6 +135,7 @@ export function LyricsProvider({ children }) {
         adicionarMusicaHistorico: (musica, artista) => adicionarMusicaHistorico(musica, artista, token),
         buscaMusicaHistorico: (musica, artista) => buscaMusicaHistorico(musica, artista, token),
         excluirHistorico: (musica, artista) => excluirHistorico(musica, artista, token),
+        //fetchLyrics: (musica, artista) => fetchLyrics(musica, artista)
     };
 
     return (
