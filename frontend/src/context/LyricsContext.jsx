@@ -1,27 +1,20 @@
-import { createContext, useState, useContext } from 'react';
+import { createContext, useState, useContext, useEffect } from 'react';
 
 async function fetchLyrics(nomeArtista, nomeMusica) {
     const url = `https://lrclib.net/api/search?track_name=${nomeMusica}&artist_name=${nomeArtista}`;
-
     const response = await fetch(url);
-
-    console.log(response)
-
     if (!response.ok) {
         throw new Error('Erro na busca. Tente com outros termos.');
     }
-
     const data = await response.json();
-
     if (data.length === 0 || !data[0].plainLyrics) {
         throw new Error("Nenhuma letra encontrada para essa busca.");
     }
-
     return data[0].plainLyrics;
 }
 
-
 async function adicionarMusicaHistorico(nomeArtista, nomeMusica, token) {
+    // 1. Porta corrigida para 3001
     const url = 'https://localhost:8000/hist/adicionar';
     const response = await fetch(url, {
         method: 'POST',
@@ -31,25 +24,18 @@ async function adicionarMusicaHistorico(nomeArtista, nomeMusica, token) {
         },
         body: JSON.stringify({ nomeArtista, nomeMusica, token }),
     });
-
     const data = await response.json();
-
     if (!response.ok) {
         throw new Error(data.message || data.error || 'Erro ao adicionar música ao histórico.');
     }
-
     const event = new Event('historicoAtualizado');
-
     window.dispatchEvent(event);
-
     return data;
-
-
 }
 
 async function buscaMusicaHistorico(nomeArtista, nomeMusica, token) {
 
-    const url = 'https://localhost:8000/hist/busca';
+    const url = 'https://localhost:8000/hist/buscar';
     const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -59,9 +45,7 @@ async function buscaMusicaHistorico(nomeArtista, nomeMusica, token) {
         body: JSON.stringify({ nomeArtista, nomeMusica, token }),
 
     });
-
     const data = await response.json();
-
     if (!response.ok) {
         throw new Error(data.message || data.error || 'Erro ao deletar música ao histórico.');
     }
@@ -81,15 +65,11 @@ async function excluirHistorico(nomeArtista, nomeMusica, token) {
         },
         body: JSON.stringify({ nomeArtista, nomeMusica, token }),
     });
-
     const data = await response.json();
-
     if (!response.ok) {
         throw new Error(data.message || data.error || 'Erro ao deletar música ao histórico.');
     }
-
     return data;
-
 };
 
 export const LyricsContext = createContext();
@@ -100,17 +80,19 @@ export function LyricsProvider({ children }) {
     const [modalOpen, setModalOpen] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [loading, setLoading] = useState(false);
+    
+    const [token, setToken] = useState(null);
 
-    let token = localStorage.getItem('token')
-
+    useEffect(() => {
+        const storedToken = localStorage.getItem('token');
+        if (storedToken) {
+            setToken(storedToken);
+        }
+    }, []);
 
     const abrirModal = (message) => {
         setErrorMessage(message);
         setModalOpen(true);
-    };
-
-    const fecharModal = () => {
-        setModalOpen(false);
     };
 
     function validacaoDados(nomeArtista, nomeMusica) {
@@ -122,27 +104,25 @@ export function LyricsProvider({ children }) {
         return true;
     }
 
-
     async function buscaMusica(nomeArtista, nomeMusica) {
         if (!validacaoDados(nomeArtista, nomeMusica)) {
             return;
         }
-
-
-
+        console.log(nomeArtista, nomeMusica)
         setLyrics('');
         setLoading(true);
-
         try {
             const letraEncontrada = await fetchLyrics(nomeArtista, nomeMusica);
 
-            adicionarMusicaHistorico(nomeArtista, nomeMusica, token);
+            if (token) {
+                await adicionarMusicaHistorico(nomeArtista, nomeMusica, token);
+            }
+
             setLyrics(letraEncontrada);
 
         } catch (error) {
             console.error("Ocorreu um erro:", error);
             abrirModal(error.message || 'Ops! Ocorreu um erro desconhecido.');
-
         } finally {
             setLoading(false);
         }
@@ -153,14 +133,13 @@ export function LyricsProvider({ children }) {
         modalOpen,
         errorMessage,
         loading,
-        fecharModal,
+        token,
+        setToken,
         buscaMusica,
-        fetchLyrics,
         adicionarMusicaHistorico: (musica, artista) => adicionarMusicaHistorico(musica, artista, token),
         buscaMusicaHistorico: (musica, artista) => buscaMusicaHistorico(musica, artista, token),
         excluirHistorico: (musica, artista) => excluirHistorico(musica, artista, token),
-
-
+        //fetchLyrics: (musica, artista) => fetchLyrics(musica, artista)
     };
 
     return (
@@ -169,6 +148,5 @@ export function LyricsProvider({ children }) {
         </LyricsContext.Provider>
     );
 }
-
 
 export const useLyrics = () => useContext(LyricsContext);

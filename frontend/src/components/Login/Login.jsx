@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom"
+import { useLyrics } from "../../context/LyricsContext";
 import "./Login.css";
 
 const API_URL = 'https://localhost:8000/user/login';
+
 
 async function loginUsuario(email, senha) {
     try {
@@ -33,9 +35,9 @@ async function loginUsuario(email, senha) {
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [errorMsg, setErrorMsg] = useState("");
     const navigate = useNavigate();
 
+        const { setToken } = useLyrics()
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -43,11 +45,10 @@ export default function Login() {
 
         try {
         
-            const resultado = await loginUsuario(email, password); // Note que `password` é o seu estado.
+            const resultado = await loginUsuario(email, password);
 
-            // Se o login for bem-sucedido, redirecione o usuário
             alert(`Login realizado com sucesso: ${resultado.result.token}`);
-            localStorage.setItem('token', resultado.result.token);
+            setToken(resultado.result.token)
             navigate('/')
         } catch (error) {
             alert(`Erro: ${error.message}`);
@@ -92,7 +93,7 @@ export default function Login() {
                         </Button>
                     </div>
 
-                    <div style={{ marginTop: "20px" }} className="text-center">
+                    <div className="text-center">
                         <Link to="/register" className="login-link">
                             Criar nova conta
                         </Link>
