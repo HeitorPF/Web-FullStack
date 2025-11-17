@@ -7,9 +7,9 @@ const router = Router();
 
 router.post('/adicionar', expressjwt({ secret: 'fullstack', algorithms: ['HS256'] }), async (req, res) => {
   try {
-    const { nomeArtista, nomeMusica, token } = req.body
+    const { nomeArtista, nomeMusica } = req.body
 
-    const dados = jwt.verify(token, 'fullstack')
+    const dados = req.auth
     const result = await adicionar(nomeArtista, nomeMusica, dados.email)
     res.status(201).json({ message: "Musica adicionada ao histórico!", result });
   }
@@ -23,8 +23,8 @@ router.post('/adicionar', expressjwt({ secret: 'fullstack', algorithms: ['HS256'
 router.post('/buscar', expressjwt({ secret: 'fullstack', algorithms: ['HS256'] }), async (req, res) => {
   try {
 
-    const { nomeArtista, nomeMusica, token } = req.body
-    const dados = jwt.verify(token, 'fullstack')
+    const { nomeArtista, nomeMusica } = req.body
+    const dados = req.auth
 
     console.log(dados)
     const result = await buscar(nomeArtista, nomeMusica, dados.email);
@@ -39,8 +39,8 @@ router.post('/buscar', expressjwt({ secret: 'fullstack', algorithms: ['HS256'] }
 
 router.delete('/deletar', expressjwt({ secret: 'fullstack', algorithms: ['HS256'] }), async (req, res) => {
   try {
-    const { nomeArtista, nomeMusica, token } = req.body
-    const dados = jwt.verify(token, 'fullstack')
+    const { nomeArtista, nomeMusica } = req.body
+    const dados = req.auth
 
     const result = await deletar(nomeArtista, nomeMusica, dados.email)
 

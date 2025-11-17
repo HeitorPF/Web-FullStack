@@ -14,7 +14,7 @@ async function fetchLyrics(nomeArtista, nomeMusica) {
 }
 
 async function adicionarMusicaHistorico(nomeArtista, nomeMusica, token) {
-    // 1. Porta corrigida para 3001
+
     const url = 'https://localhost:8000/hist/adicionar';
     const response = await fetch(url, {
         method: 'POST',
@@ -22,7 +22,7 @@ async function adicionarMusicaHistorico(nomeArtista, nomeMusica, token) {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ nomeArtista, nomeMusica, token }),
+        body: JSON.stringify({ nomeArtista, nomeMusica}),
     });
     const data = await response.json();
     if (!response.ok) {
@@ -41,12 +41,12 @@ async function buscaMusicaHistorico(nomeArtista, nomeMusica, token) {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ nomeArtista, nomeMusica, token }),
+        body: JSON.stringify({ nomeArtista, nomeMusica}),
 
     });
     const data = await response.json();
     if (!response.ok) {
-        throw new Error(data.message || data.error || 'Erro ao deletar música ao histórico.');
+        throw new Error(data.message || data.error || 'Erro ao buscar música ao histórico.');
     }
 
     return data;
@@ -61,7 +61,7 @@ async function excluirHistorico(nomeArtista, nomeMusica, token) {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ nomeArtista, nomeMusica, token }),
+        body: JSON.stringify({ nomeArtista, nomeMusica}),
     });
     const data = await response.json();
     if (!response.ok) {
@@ -143,7 +143,6 @@ export function LyricsProvider({ children }) {
         adicionarMusicaHistorico: (musica, artista) => adicionarMusicaHistorico(musica, artista, token),
         buscaMusicaHistorico: (musica, artista) => buscaMusicaHistorico(musica, artista, token),
         excluirHistorico: (musica, artista) => excluirHistorico(musica, artista, token),
-        //fetchLyrics: (musica, artista) => fetchLyrics(musica, artista)
     };
 
     return (

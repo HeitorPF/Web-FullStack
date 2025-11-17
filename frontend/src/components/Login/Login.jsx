@@ -37,7 +37,7 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
-        const { setToken } = useLyrics()
+    const { setToken } = useLyrics()
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -47,8 +47,9 @@ export default function Login() {
         
             const resultado = await loginUsuario(email, password);
 
-            alert(`Login realizado com sucesso: ${resultado.result.token}`);
+            alert(`Login realizado com sucesso!`);
             setToken(resultado.result.token)
+            localStorage.setItem('token', resultado.result.token)
             navigate('/')
         } catch (error) {
             alert(`Erro: ${error.message}`);

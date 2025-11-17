@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect} from 'react';
 import './HistoricoPesquisa.css';
 import { useLyrics } from '../../context/LyricsContext';
 
@@ -23,7 +23,7 @@ function HistoricoPesquisa({ onBuscaHistorico, id }) {
 
             console.log(token);
 
-            const lista = await buscaMusicaHistorico("", "", token);
+            const lista = await buscaMusicaHistorico("", "");
 
             const listaHistorico = lista.result;
 
@@ -55,7 +55,7 @@ function HistoricoPesquisa({ onBuscaHistorico, id }) {
         try {
 
             console.log('excluindo')
-            await excluirHistorico(artista, musica, token);
+            await excluirHistorico(artista, musica);
             await carregarHistorico()
 
         } catch (error) {
