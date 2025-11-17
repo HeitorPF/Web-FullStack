@@ -8,7 +8,7 @@ import './Home.css';
 import { useNavigate } from 'react-router-dom';
 
 function Home() {
-    const { lyrics, modalOpen, errorMessage, loading, fecharModal, buscaMusica, buscaMusicaHistorico, excluirHistorico } = useLyrics();
+    const { lyrics, modalOpen, errorMessage, loading, fecharModal, buscaMusica, buscaMusicaHistorico, excluirHistorico, limparLyrics } = useLyrics();
 
     const resultadoRef = useRef(null);
 
@@ -52,8 +52,15 @@ function Home() {
 
         localStorage.removeItem('token');
 
+        limparLyrics();
+
         navigate('/login');
     };
+
+
+    useEffect(() => {
+        limparLyrics();
+    }, []);
 
 
     return (
