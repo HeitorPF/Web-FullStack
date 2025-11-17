@@ -89,14 +89,24 @@ export function LyricsProvider({ children }) {
     const [errorMessage, setErrorMessage] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const [token, setToken] = useState(null);
+    const [token, setTokenState] = useState(localStorage.getItem('token'));
+
+    const setToken = (newToken) => {
+        setTokenState(newToken);
+        if (newToken) {
+            localStorage.setItem('token', newToken);
+        } else {
+            localStorage.removeItem('token');
+        }
+    };
 
     useEffect(() => {
         const storedToken = localStorage.getItem('token');
-        if (storedToken) {
-            setToken(storedToken);
+        if (storedToken && !token) {
+            setTokenState(storedToken);
         }
-    }, []);
+    }, [token]);
+
 
     const abrirModal = (message) => {
         setErrorMessage(message);

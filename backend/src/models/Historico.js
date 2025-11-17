@@ -13,7 +13,14 @@ export async function adicionar(nomeArtista, nomeMusica, emailUsuario) {
     emailUsuario: String(emailUsuario)
   };
 
-  const resultado = await collection.insertOne(registro);
+  const filter = registro;
+
+  const update = {
+    $set: registro
+  };
+
+  const resultado = await collection.updateOne(filter, update, { upsert: true });
+
 
   console.log(`Novo histórico adicionado: Artista='${registro.nomeArtista}', Música='${registro.nomeMusica}'`);
 

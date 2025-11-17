@@ -1,8 +1,6 @@
 import { Router } from 'express'
 import { adicionar, buscar, deletar } from '../models/Historico.js'
 import { expressjwt } from 'express-jwt'
-import jwt from 'jsonwebtoken'
-
 const router = Router();
 
 router.post('/adicionar', expressjwt({ secret: 'fullstack', algorithms: ['HS256'] }), async (req, res) => {
@@ -10,7 +8,6 @@ router.post('/adicionar', expressjwt({ secret: 'fullstack', algorithms: ['HS256'
     const { nomeArtista, nomeMusica } = req.body
 
     const userEmail = req.auth.email;
-
     const result = await adicionar(nomeArtista, nomeMusica, userEmail)
 
     res.status(201).json({ message: "Musica adicionada ao histórico!", result });
@@ -53,7 +50,7 @@ router.delete('/deletar', expressjwt({ secret: 'fullstack', algorithms: ['HS256'
 
   } catch (err) {
     console.log(err)
-    res.status(201).json({ message: "Falha ao excluir música!", result });
+    res.status(500).json({ message: "Falha ao excluir música!", result });
   }
 })
 export default router;

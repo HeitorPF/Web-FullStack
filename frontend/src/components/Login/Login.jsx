@@ -54,7 +54,7 @@ export default function Login() {
 
             const resultado = await loginUsuario(email, password);
 
-            setToken(resultado.result.token)
+            setToken(resultado.result.token);
 
             setModalTitle('Login Bem-Sucedido');
             setModalBody('Login realizado com sucesso! Redirecionando para a página inicial.');
