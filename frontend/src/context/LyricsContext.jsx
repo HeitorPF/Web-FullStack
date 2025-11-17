@@ -42,7 +42,7 @@ async function buscaMusicaHistorico(nomeArtista, nomeMusica, token) {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ nomeArtista:nomeArtista, nomeMusica:nomeMusica, token:token }),
+        body: JSON.stringify({ nomeArtista, nomeMusica, token }),
 
     });
     const data = await response.json();
