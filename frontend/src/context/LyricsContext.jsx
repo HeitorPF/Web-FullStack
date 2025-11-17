@@ -5,6 +5,8 @@ async function fetchLyrics(nomeArtista, nomeMusica) {
 
     const response = await fetch(url);
 
+    console.log(response)
+
     if (!response.ok) {
         throw new Error('Erro na busca. Tente com outros termos.');
     }
@@ -19,7 +21,7 @@ async function fetchLyrics(nomeArtista, nomeMusica) {
 }
 
 
-async function adicionarMusicaHistorico(nomeMusica, nomeArtista, token) {
+async function adicionarMusicaHistorico(nomeArtista, nomeMusica, token) {
     const url = 'https://localhost:8000/hist/adicionar';
     const response = await fetch(url, {
         method: 'POST',
@@ -27,7 +29,7 @@ async function adicionarMusicaHistorico(nomeMusica, nomeArtista, token) {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ nomeMusica, nomeArtista, token }),
+        body: JSON.stringify({ nomeArtista, nomeMusica, token }),
     });
 
     const data = await response.json();
@@ -45,33 +47,30 @@ async function adicionarMusicaHistorico(nomeMusica, nomeArtista, token) {
 
 }
 
-async function buscaMusicaHistorico(nomeMusica, nomeArtista, token) {
+async function buscaMusicaHistorico(nomeArtista, nomeMusica, token) {
+
     const url = 'https://localhost:8000/hist/busca';
     const response = await fetch(url, {
-        method: 'GET',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ nomeMusica, nomeArtista, token }),
+        body: JSON.stringify({ nomeArtista, nomeMusica, token }),
+
     });
 
     const data = await response.json();
 
     if (!response.ok) {
-        throw new Error(data.message || data.error || 'Erro ao buscar música ao histórico.');
+        throw new Error(data.message || data.error || 'Erro ao deletar música ao histórico.');
     }
-
-    const event = new Event('historicoAtualizado');
-
-    window.dispatchEvent(event);
 
     return data;
 
+};
 
-}
-
-async function excluirHistorico(nomeMusica, nomeArtista, token) {
+async function excluirHistorico(nomeArtista, nomeMusica, token) {
 
     const url = 'https://localhost:8000/hist/deletar';
     const response = await fetch(url, {
@@ -80,7 +79,7 @@ async function excluirHistorico(nomeMusica, nomeArtista, token) {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ nomeMusica, nomeArtista, token }),
+        body: JSON.stringify({ nomeArtista, nomeMusica, token }),
     });
 
     const data = await response.json();
@@ -156,9 +155,11 @@ export function LyricsProvider({ children }) {
         loading,
         fecharModal,
         buscaMusica,
+        fetchLyrics,
         adicionarMusicaHistorico: (musica, artista) => adicionarMusicaHistorico(musica, artista, token),
         buscaMusicaHistorico: (musica, artista) => buscaMusicaHistorico(musica, artista, token),
         excluirHistorico: (musica, artista) => excluirHistorico(musica, artista, token),
+
 
     };
 

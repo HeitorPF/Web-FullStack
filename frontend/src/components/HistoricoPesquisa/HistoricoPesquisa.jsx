@@ -7,26 +7,33 @@ function HistoricoPesquisa({ onBuscaHistorico, id }) {
     const {
         buscaMusicaHistorico,
         excluirHistorico,
-        userEmail,
-        userToken
+        buscaMusica
     } = useLyrics();
 
     const [historico, setHistorico] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    let token = localStorage.getItem('token')
+
+
     const carregarHistorico = async () => {
-        if (!userToken || !userEmail) {
-            setHistorico([]);
-            setLoading(false);
-            return;
-        }
 
         try {
             setLoading(true);
 
-            const lista = await buscaMusicaHistorico("placeholder", "placeholder", userToken, userEmail);
+            let token = localStorage.getItem('token');
 
-            setHistorico(lista);
+            console.log(token);
+
+            const lista = await buscaMusicaHistorico("", "", token);
+
+            const listaHistorico = lista.result;
+
+            console.log("Histórico carregado:", listaHistorico);
+
+            setHistorico(listaHistorico); //
+
+
         } catch (error) {
             console.error("Erro ao carregar histórico:", error);
             setHistorico([]);
@@ -34,6 +41,7 @@ function HistoricoPesquisa({ onBuscaHistorico, id }) {
             setLoading(false);
         }
     };
+
 
     useEffect(() => {
         carregarHistorico();
@@ -44,11 +52,11 @@ function HistoricoPesquisa({ onBuscaHistorico, id }) {
         return () => {
             window.removeEventListener('historicoAtualizado', handleAtualizacao);
         };
-    }, [userToken, userEmail, buscaMusicaHistorico]);
+    }, [token, buscaMusicaHistorico]);
 
     const handleExcluir = async (artista, musica) => {
         try {
-            await excluirHistorico(musica, artista, userToken);
+            await excluirHistorico(musica, artista, token);
 
         } catch (error) {
             console.error("Falha ao deletar item:", error);
@@ -67,13 +75,14 @@ function HistoricoPesquisa({ onBuscaHistorico, id }) {
             {historico.length > 0 ? (
                 <ul>
                     {historico.map((item, index) => (
-                        <li key={index} onClick={() => onBuscaHistorico(item.artista, item.musica)}>
-                            <strong>{item.artista}</strong> - {item.musica}
+                        <li key={index} onClick={() => buscaMusica(item.nomeArtista, item.nomeMusica)}>
+                            <strong>{item.nomeArtista}</strong> - {item.nomeMusica}
+
                             <button
                                 className="btn-excluir"
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    handleExcluir(item.artista, item.musica);
+                                    handleExcluir(item.nomeArtista, item.nomeMusica);
                                 }}
                             >
                                 X
