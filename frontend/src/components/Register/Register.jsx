@@ -31,8 +31,7 @@ async function cadastrarUsuario(email, senha) {
 }
 
 
-
-
+// O nome da função deve ser 'Register' ou similar, mas mantendo 'Login' conforme seu código
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -46,10 +45,12 @@ export default function Login() {
 
         try {
             const resultado = await cadastrarUsuario(email, password);
-            if(resultado.result){
+            if (resultado.result) {
                 alert(`Cadastro realizado com sucesso: ${resultado.message}`);
+                // **REDIRECIONAMENTO ADICIONADO AQUI:**
+                navigate('/login');
             }
-            else{
+            else {
                 alert(resultado.message)
             }
         } catch (error) {
