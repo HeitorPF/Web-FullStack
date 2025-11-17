@@ -53,7 +53,9 @@ function HistoricoPesquisa({ onBuscaHistorico, id }) {
 
     const handleExcluir = async (artista, musica) => {
         try {
-            await excluirHistorico(musica, artista, token);
+
+            console.log('excluindo')
+            await excluirHistorico(artista, musica, token);
             await carregarHistorico()
 
         } catch (error) {

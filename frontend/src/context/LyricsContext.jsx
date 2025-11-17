@@ -34,7 +34,6 @@ async function adicionarMusicaHistorico(nomeArtista, nomeMusica, token) {
 }
 
 async function buscaMusicaHistorico(nomeArtista, nomeMusica, token) {
-
     const url = 'https://localhost:8000/hist/buscar';
     const response = await fetch(url, {
         method: 'POST',
@@ -55,7 +54,6 @@ async function buscaMusicaHistorico(nomeArtista, nomeMusica, token) {
 };
 
 async function excluirHistorico(nomeArtista, nomeMusica, token) {
-
     const url = 'https://localhost:8000/hist/deletar';
     const response = await fetch(url, {
         method: 'DELETE',
@@ -80,7 +78,7 @@ export function LyricsProvider({ children }) {
     const [modalOpen, setModalOpen] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [loading, setLoading] = useState(false);
-    
+
     const [token, setToken] = useState(null);
 
     useEffect(() => {
@@ -103,6 +101,11 @@ export function LyricsProvider({ children }) {
         }
         return true;
     }
+
+
+    const fecharModal = () => {
+        setModalOpen(false);
+    };
 
     async function buscaMusica(nomeArtista, nomeMusica) {
         if (!validacaoDados(nomeArtista, nomeMusica)) {
@@ -134,6 +137,7 @@ export function LyricsProvider({ children }) {
         errorMessage,
         loading,
         token,
+        fecharModal,
         setToken,
         buscaMusica,
         adicionarMusicaHistorico: (musica, artista) => adicionarMusicaHistorico(musica, artista, token),
