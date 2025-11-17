@@ -14,6 +14,9 @@ async function fetchLyrics(nomeArtista, nomeMusica) {
 }
 
 async function adicionarMusicaHistorico(nomeArtista, nomeMusica, token) {
+    if (!token) {
+        throw new Error("Token de autenticação não fornecido. Por favor, faça login novamente.");
+    }
     // 1. Porta corrigida para 3001
     const url = 'https://localhost:8000/hist/adicionar';
     const response = await fetch(url, {
@@ -22,7 +25,7 @@ async function adicionarMusicaHistorico(nomeArtista, nomeMusica, token) {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ nomeArtista, nomeMusica, token }),
+        body: JSON.stringify({ nomeArtista, nomeMusica }),
     });
     const data = await response.json();
     if (!response.ok) {
@@ -34,6 +37,10 @@ async function adicionarMusicaHistorico(nomeArtista, nomeMusica, token) {
 }
 
 async function buscaMusicaHistorico(nomeArtista, nomeMusica, token) {
+
+    if (!token) {
+        throw new Error("Token de autenticação não fornecido. Por favor, faça login novamente.");
+    }
     const url = 'https://localhost:8000/hist/buscar';
     const response = await fetch(url, {
         method: 'POST',
@@ -41,7 +48,7 @@ async function buscaMusicaHistorico(nomeArtista, nomeMusica, token) {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ nomeArtista, nomeMusica, token }),
+        body: JSON.stringify({ nomeArtista, nomeMusica }),
 
     });
     const data = await response.json();
@@ -54,6 +61,9 @@ async function buscaMusicaHistorico(nomeArtista, nomeMusica, token) {
 };
 
 async function excluirHistorico(nomeArtista, nomeMusica, token) {
+    if (!token) {
+        throw new Error("Token de autenticação não fornecido. Por favor, faça login novamente.");
+    }
     const url = 'https://localhost:8000/hist/deletar';
     const response = await fetch(url, {
         method: 'DELETE',
@@ -61,7 +71,7 @@ async function excluirHistorico(nomeArtista, nomeMusica, token) {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ nomeArtista, nomeMusica, token }),
+        body: JSON.stringify({ nomeArtista, nomeMusica }),
     });
     const data = await response.json();
     if (!response.ok) {

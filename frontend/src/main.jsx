@@ -12,7 +12,7 @@ import { ModalProvider } from './context/ModalContext.jsx';
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     { }
-    <BrowserRouter basename="/webFullStack">
+    <BrowserRouter basename="/webFullStack/">
       <ModalProvider>
         <LyricsProvider>
           <AppRouter />
