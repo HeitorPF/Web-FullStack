@@ -48,3 +48,33 @@
     color: var(--bs-primary);
     text-decoration: underline;
 }
+
+
+.modal-body {
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 400px;
+    max-width: 90%;
+    padding: 32px;
+
+    background-color: white;
+    border: 2px solid #f44336;
+    border-radius: 8px;
+
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    z-index: 1300;
+}
+
+
+.modal-title {
+    font-weight: bold;
+    color: white !important;
+}
+
+.modal-footer {
+    justify-content: center;
+}
