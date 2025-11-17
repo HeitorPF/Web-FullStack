@@ -19,7 +19,7 @@ router.post('/adicionar', expressjwt({secret: 'fullstack', algorithms:['HS256']}
   }
 })
 
-router.get('/busca', expressjwt({secret: 'fullstack', algorithms:['HS256']}), async (req, res) => {
+router.post('/buscar', expressjwt({secret: 'fullstack', algorithms:['HS256']}), async (req, res) => {
   try {
 
     const {nomeArtista, nomeMusica, token} = req.body
