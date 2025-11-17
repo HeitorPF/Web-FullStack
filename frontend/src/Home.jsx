@@ -13,7 +13,6 @@ function Home() {
     const resultadoRef = useRef(null);
 
     useEffect(() => {
-        // Note: A classe 'invi' deve estar definida no seu CSS
         if (resultadoRef.current) {
             if (loading || lyrics) {
                 resultadoRef.current.classList.remove('invi');
@@ -23,9 +22,15 @@ function Home() {
         }
     }, [loading, lyrics]);
 
-    const handleBuscaHistorico = (artista, musica) => {
+
+
+    const handleBusca = (artista, musica) => {
         buscaMusica(artista, musica);
     };
+
+    const handleBuscaHistorico = (artista, musica) => {
+        buscaMusicaHistorico(artista, musica);
+    }
 
     const handleExcluirHistorico = (artista, musica) => {
         excluirHistorico(artista, musica);
@@ -48,6 +53,7 @@ function Home() {
             </main>
 
             <HistoricoPesquisa
+                onBusca={handleBusca}
                 onBuscaHistorico={handleBuscaHistorico}
                 onExcluirHistorico={handleExcluirHistorico}
                 id="secao-historico"
